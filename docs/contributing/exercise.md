@@ -115,3 +115,9 @@ You can run the unit tests of your exercise via:
 Create a pull request from your fork using the provided pull request template.
 
 Fill in all of the details necessary.
+
+## Example
+
+1. Exercise discussion: <https://github.com/git-mastery/exercises/issues/24>
+2. Remote repository request: <https://github.com/git-mastery/exercises/issues/25>
+3. Exercise PR: <https://github.com/git-mastery/exercises/pull/26>
