@@ -12,7 +12,7 @@ nav_order: 2
 If you are proposing a new exercise (i.e., not implementing an [already approved exercise proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22exercise%20discussion%22%20label%3A%22help%20wanted%22)) make sure that you have done the following:
 
 - [ ] Create an [exercise discussion](https://github.com/git-mastery/exercises/issues/new?template=exercise_discussion.yaml)
-- [ ] Obtained approval on the exercise
+- [ ] Obtain approval on the exercise
 - [ ] File a [remote repository request](https://github.com/git-mastery/exercises/issues/new?template=request_exercise_repository.yaml)
 
 ## Create a new exercise
