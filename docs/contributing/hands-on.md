@@ -30,8 +30,8 @@ Enter `hands-on` or `h` to create a new hands-on.
 Then, the script will prompt you for:
 
 1. The name of the hands-on -- likely to be specified in the corresponding hands-on discussion (you should be using kebab case for the hands-on name)
-2. Does the exercise require Git?
-3. Does the exercise require Github?
+2. Does the hands-on require Git?
+3. Does the hands-on require Github?
 
 {: .reference }
 
@@ -39,31 +39,30 @@ Refer to the [hands-on structure document](/developers/docs/architecture/hands-o
 
 ## Download setup
 
-The `download.py` contains the instructions to setup the local repository.
+Hands-on downloads are all single-file stored in `hands_on/`. The `<hands on name>.py` contains the instructions to setup the local repository.
 
 {: .reference }
 
-For more information about how Git-Mastery downloads exercises, refer to the [Download Workflow](/developers/docs/architecture/download-workflow)
+For more information about how Git-Mastery downloads hands-on, refer to the [Download Workflow](/developers/docs/architecture/download-workflow)
 
-The default download script comes with a helper function to `run_command` to run local command, and a command to attach a tag as the "start tag". This is only useful if you want to iterate through the user's commits in your verification script. Otherwise, this can be removed.
+The default download script comes with a helper function to `run_command` to run local command.
 
 These are some references for download setups for other exercises:
 
-- [ignoring-somethings](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/ignoring_somethings/download.py)
-- [branch-bender](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/branch_bender/download.py)
+- [init-repo](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/hands_on/init_repo.py)
+- [add-files](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/hands_on/add_files.py)
 
 ### Download conventions
 
 1. Any operations should use OS agnostic options (e.g. opting to use `shutil.rmtree` over `run_command(["rm"])`)
-2. If you need to compare the states before and after the student has started to add commits, use the given "start tag" as `git-autograder` is designed to read that if necessary
-3. For any commands that require `gh` (Github CLI), make sure that the `requires_github` configuration is set to `true` so that the app will automatically check that the student has correctly setup Github CLI
+2. For any commands that require `gh` (Github CLI), make sure that the `__requires_github__` variable in the download setup is set to `True` so that the app will automatically check that the student has correctly setup Github CLI
 
 ### Testing downloads
 
 To test that your download script works, we have provided a script to simulate the download process in this repository for you to verify.
 
 ```bash
-./test-download.sh <your exercise folder>
+./test-download.sh <your hands-on name>
 ```
 
 You can find the downloaded repository under the `test-downloads/` folder.
@@ -78,5 +77,5 @@ Fill in all of the details necessary.
 
 1. Hands-on discussion: <https://github.com/git-mastery/exercises/issues/44>
 2. Remote repository request: <https://github.com/git-mastery/exercises/issues/25>
-3. Hands-on PR: 
+3. Hands-on PR: <https://github.com/git-mastery/exercises/pull/45>
 
