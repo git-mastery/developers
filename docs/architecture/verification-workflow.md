@@ -1,6 +1,7 @@
 ---
 title: Verification Workflow
 parent: Architecture
+nav_order: 4
 ---
 
 # Verification Workflow

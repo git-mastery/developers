@@ -1,6 +1,7 @@
 ---
 title: Exercise structure
 parent: Architecture
+nav_order: 2
 ---
 
 # Exercise structure

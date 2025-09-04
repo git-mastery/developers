@@ -29,7 +29,7 @@ Enter `hands-on` or `h` to create a new hands-on.
 
 Then, the script will prompt you for:
 
-1. The name of the hands-on -- likely to be specified in the corresponding hands-on discussion (you should be using kebab case for the hands-on name)
+1. The name of the hands-on -- likely to be specified in the corresponding hands-on discussion (without the `hp-` prefix!) (you should be using kebab case for the hands-on name)
 2. Does the hands-on require Git?
 3. Does the hands-on require Github?
 

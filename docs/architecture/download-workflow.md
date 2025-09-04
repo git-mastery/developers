@@ -1,6 +1,7 @@
 ---
 title: Download Workflow
 parent: Architecture
+nav_order: 3
 ---
 
 ## General download sequence
