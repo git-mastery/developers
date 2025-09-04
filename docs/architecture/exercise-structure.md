@@ -4,8 +4,6 @@ parent: Architecture
 nav_order: 2
 ---
 
-# Exercise structure
-
 Exercises follow a fixed structure for the Git-Mastery app to pick up on:
 
 ```text

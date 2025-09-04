@@ -4,8 +4,6 @@ parent: Architecture
 nav_order: 4
 ---
 
-# Verification Workflow
-
 ```mermaid
 flowchart
 a[Verify exercise] --> b["Check if in exercise (using .gitmastery-exercise.json)"]
