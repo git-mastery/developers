@@ -12,42 +12,41 @@ Hands-ons are not graded and the progress is not tracked. They are only present 
 
 {: .note }
 
-Git-Mastery users will prefix `hp-` before the hands-on names, but internally, we do not use this prefix as the `hands_on` folder is sufficient for us.
+Git-Mastery uses the format `hp-<hands-on-name>` for hands-on names (e.g., `hp-init-repo`), to differentiate them from exercise names. Internally, we use a `hands_on/` folder (instead of the `hp-` prefix) to differentiate hands-on files from exercise files (e.g., `hands_on/init_repo.py`).
 
 ## File structure
 
-Since the hands-on is only comprised of a single file, there isn't a lot of complexity to it.
+Since the hands-on is only comprised of a single file, there isn't a lot of complexity to it. Given below is an example:
 
 ```python
-import subprocess
-from sys import exit
-from typing import List, Optional
+import os
+
+from exercise_utils.cli import run_command
+from exercise_utils.file import append_to_file, create_or_update_file
+from exercise_utils.git import add, init
 
 __requires_git__ = True
-__requires_github__ = True
-
-
-def run_command(command: List[str], verbose: bool) -> Optional[str]:
-    try:
-        result = subprocess.run(
-            command,
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        if verbose:
-            print(result.stdout)
-        return result.stdout
-    except subprocess.CalledProcessError as e:
-        if verbose:
-            print(e.stderr)
-        exit(1)
+__requires_github__ = False
 
 
 def download(verbose: bool):
-    pass
+    os.makedirs("things")
+    os.chdir("things")
+    init(verbose)
+    create_or_update_file(
+        "fruits.txt",
+        """
+        apples
+        bananas
+        cherries
+        """,
+    )
+    add(["fruits.txt"], verbose)
+    run_command(["git", "add", "fruits.txt"], verbose)
+    append_to_file("fruits.txt", "dragon fruits")
+
 ```
 
-The setup instructions of the hands-on go under `download`.
+The setup instructions of the hands-on go under the `download` function.
 
 `__requires_git__` and `__requires_github__` tells the Git-Mastery app whether to run automatic verification that the student has already setup Git and/or Github CLI correctly!
