@@ -23,3 +23,7 @@ The versioning is done as follows: `<major>.<minor>.<patch>` where
 The app automatically checks for the latest version published and warns users if their local version is out of date if the `<major>` or `<minor>` versions are wrong.
 
 If you do not have permissions to push a new tag, contact <woojiahao1234@gmail.com> for assistance.
+
+{: .note }
+
+For more information for packaging for Linux, refer to [this Notion page](https://woojiahao.notion.site/linux-packaging-226f881eda0580d68bc8dc6f8e1d5d0d?source=copy_link).

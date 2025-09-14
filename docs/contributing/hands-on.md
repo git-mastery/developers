@@ -45,12 +45,19 @@ Hands-on downloads are all single-file stored in `hands_on/`. The `<hands on nam
 
 For more information about how Git-Mastery downloads hands-on, refer to the [Download Workflow](/developers/docs/architecture/download-workflow)
 
-The default download script comes with a helper function to `run_command` to run local command.
+{: .note }
+
+> `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. They provide simple wrappers around common functionality such as `exercise_utils.cli.run_command` to invoke any command and `exercise_utils.file.create_or_update_file` to create or update a given file.
+> 
+> For the full list of utility functions, refer [here](/developers/docs/tooling/exercise-utils).
+
+).
 
 These are some references for download setups for other exercises:
 
 - [init-repo](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/hands_on/init_repo.py)
 - [add-files](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/hands_on/add_files.py)
+- [stage-modified](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/hands_on/stage_modified.py)
 
 ### Download conventions
 

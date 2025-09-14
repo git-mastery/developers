@@ -45,12 +45,17 @@ The `download.py` contains the instructions to setup the local repository.
 
 For more information about how Git-Mastery downloads exercises, refer to the [Download Workflow](/developers/docs/architecture/download-workflow)
 
-The default download script comes with a helper function to `run_command` to run local command, and a command to attach a tag as the "start tag". This is only useful if you want to iterate through the user's commits in your verification script. Otherwise, this can be removed.
+{: .note }
+
+> `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. They provide simple wrappers around common functionality such as `exercise_utils.cli.run_command` to invoke any command and `exercise_utils.file.create_or_update_file` to create or update a given file.
+> 
+> For the full list of utility functions, refer [here](/developers/docs/tooling/exercise-utils).
 
 These are some references for download setups for other exercises:
 
 - [ignoring-somethings](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/ignoring_somethings/download.py)
 - [branch-bender](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/branch_bender/download.py)
+- [amateur-detective]
 
 ### Download conventions
 

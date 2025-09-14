@@ -1,7 +1,10 @@
 ---
-title: Libraries
-nav_order: 4
+title: Published libraries
+nav_order: 2
+parent: Tooling
 ---
+
+## Published Python packages
 
 Git-Mastery publishes and maintains several public packages:
 
