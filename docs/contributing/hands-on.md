@@ -51,8 +51,6 @@ For more information about how Git-Mastery downloads hands-on, refer to the [Dow
 > 
 > For the full list of utility functions, refer [here](/developers/docs/tooling/exercise-utils).
 
-).
-
 These are some references for download setups for other exercises:
 
 - [init-repo](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/hands_on/init_repo.py)
