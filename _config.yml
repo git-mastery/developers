@@ -20,7 +20,7 @@ callouts:
 
   reference:
     title: Reference
-    color: green
+    color: grey-dk
 
   warning:
     title: Warning
