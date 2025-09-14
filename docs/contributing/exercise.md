@@ -55,7 +55,7 @@ These are some references for download setups for other exercises:
 
 - [ignoring-somethings](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/ignoring_somethings/download.py)
 - [branch-bender](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/branch_bender/download.py)
-- [amateur-detective]
+- [amateur-detective](https://raw.githubusercontent.com/git-mastery/exercises/refs/heads/main/amateur_detective/download.py)
 
 ### Download conventions
 
