@@ -1,7 +1,7 @@
 ---
 title: Hands-on
 parent: Contributing
-nav_order: 1
+nav_order: 2
 ---
 
 1. TOC

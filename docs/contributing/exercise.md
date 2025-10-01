@@ -1,7 +1,7 @@
 ---
 title: Exercise
 parent: Contributing
-nav_order: 2
+nav_order: 3
 ---
 
 1. TOC
