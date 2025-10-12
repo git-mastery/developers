@@ -15,7 +15,7 @@ Some examples of how Git-Mastery app helps to create the sandbox for a hands-on 
 
 ## Before contributing
 
-New contributors are recommended to start by implementing an [already approved hands-on proposal]((https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22hands-on%20discussion%22%20label%3A%22help%20wanted%22)).
+New contributors are recommended to start by implementing an [already approved hands-on proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22hands-on%20discussion%22%20label%3A%22help%20wanted%22).
 
 If you are proposing a new hands-on instead, make sure that you have done the following:
 
