@@ -42,3 +42,9 @@ Both hands-on and exercises reside in the same repository: [`git-mastery/exercis
     ```bash
     pip install -r requirements.txt
     ```
+
+6. Install pre-commit hooks using LeftHook (installed as a dependency in `requirements.txt`)
+
+    ```bash
+    lefthook install
+    ```
