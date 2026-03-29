@@ -8,67 +8,79 @@ nav_order: 1
 
 Git-Mastery is standardizing on a `uv`-first local development workflow.
 
-Use the guidance on this page as the default when setting up repositories locally. Some repositories are still in transition, so the exact `uv` command differs slightly by repository.
+Use the guidance on this page as the default when setting up repositories locally. Some repositories are still in transition, and may be using `pip` and `venv` for local development.
 
 ## Prerequisites
 
 - Git
 - Python 3.13+
-- [`uv`](https://docs.astral.sh/uv/getting-started/installation/)
+- `uv` (refer to [installation guide](https://docs.astral.sh/uv/getting-started/installation/))
 - GitHub CLI (`gh`) installed and authenticated when working on flows that interact with GitHub
 
-## Recommended repository setup
+## Repository setup (uv)
 
 1. Fork the repository you want to work on.
 2. Clone your fork.
-3. Set up the environment with the repository's `uv` workflow.
 
-```bash
-git clone https://github.com/<username>/<repository>
-cd <repository>
-```
+   ```bash
+   git clone https://github.com/<username>/<repository>
+   cd <repository>
+   ```
 
-## Repository-specific setup
+3. Run the following command to set up virtual environment and install dependencies:
 
-### `app`
+   ```bash
+   uv sync
+   ```
 
-`app` already has `pyproject.toml` and `uv.lock`, so the standard workflow is:
+4. Set up pre-commit hooks using LeftHook
 
-```bash
-uv sync
-uv run lefthook install
-uv run python main.py
-```
+   {: .warning-title }
 
-### `repo-smith`
+   > Note
+   >
+   > Recommended to install for formatting and linting support.
 
-`repo-smith` is already a Python package, so the standard workflow is:
+   ```bash
+   uv run lefthook install
+   ```
 
-```bash
-uv sync
-uv run pytest -s -vv
-```
+## Repository setup (pip)
 
-### `git-autograder`
+{: .warning-title }
 
-`git-autograder` also has package metadata, so the standard workflow is:
+> Deprecated
+>
+> As we are transitioning to uv, this setup is still relevant for some repositories.
 
-```bash
-uv sync
-uv run pytest -s -vv
-```
+1. Fork the repository you want to work on.
+2. Clone your fork.
 
-### `exercises`
+   ```bash
+   git clone https://github.com/<username>/<repository>
+   cd <repository>
+   ```
 
-`exercises` has not fully migrated to a `uv sync`-based project layout yet, but you can still use `uv` as the package manager for local development:
+3. Run the following command to set up virtual environment and install dependencies:
 
-```bash
-uv venv
-source .venv/bin/activate
-uv pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   python -m venv .venv
+   source .venv/bin/activate # macOS/Linux
+   source .venv/Scripts/activate # Windows
+   ```
 
-The repository still contains older helper scripts such as `setup.sh`, `test.sh`, and `test-download.sh`. They remain useful, but new documentation should prefer `uv` where practical.
+4. Set up pre-commit hooks using LeftHook
+
+   {: .warning-title }
+
+   > Note
+   >
+   > Recommended to install for formatting and linting support.
+
+   ```bash
+   lefthook install
+   ```
 
 ## GitHub-dependent work
 
