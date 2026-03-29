@@ -22,4 +22,4 @@ These libraries are most relevant when you are working on reusable grading behav
 
 ## Scope of this section
 
-This section focuses on the two shared libraries that new Git-Mastery contributors are most likely to touch while working on verification behavior or test infrastructure.
+This section focuses on the shared libraries that Git-Mastery contributors are most likely to touch while working on verification behavior or test infrastructure.

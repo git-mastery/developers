@@ -8,26 +8,27 @@ has_children: true
 
 The [`app`](https://github.com/git-mastery/app) repository contains the `gitmastery` CLI.
 
-## What this section covers
-
-- CLI responsibilities in the wider Git-Mastery ecosystem
-- The main command groups and flows
-- Configuration files and local developer behavior
-- How the app interacts with exercise verification and progress tracking
-
-## Main responsibilities
+## Key Features
 
 - Set up a local Git-Mastery workspace
 - Fetch hands-ons and exercises from the configured exercises source
 - Execute verification logic from the `exercises` repository
 - Maintain local and remote progress tracking
 
-## Suggested reading
+## Command Reference
 
-1. [CLI command reference](/developers/docs/app/command-reference)
-2. [Configuration reference](/developers/docs/app/configuration)
-3. [Download and verification flow](/developers/docs/app/download-and-verify-flow)
-4. [Progress tracking](/developers/docs/app/progress-integration)
+Refer to [command reference](https://git-mastery.org/companion-app/index.html#git-mastery-app-commands) for the full list of commands, their descriptions, and usage examples.
+
+{: .warning-title }
+
+> Note
+>
+> Experimental command `gitmastery` to spawn a REPL instance with CLI runtime loaded. Not all commands may work as expected in the REPL, and behavior may differ from running the CLI directly. <br/> <br/>
+> The REPL accepts both Git-Mastery commands and shell commands:
+>
+> - Use `/verify` or `gitmastery verify` for Git-Mastery commands
+> - Use `cd` to change directories inside the REPL
+> - Any other command is executed through the local shell
 
 ## Testing expectations
 
@@ -38,7 +39,7 @@ When you add a new command or change command behavior, update or add E2E tests f
 Typical local flow:
 
 ```bash
-uv run pyinstaller gitmastery.spec
+uv run pyinstaller --onefile main.py --name gitmastery
 export GITMASTERY_BINARY="$PWD/dist/gitmastery"
 uv run pytest tests/e2e/ -v
 ```
