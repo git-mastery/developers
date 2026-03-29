@@ -6,15 +6,15 @@ nav_order: 2
 
 # git-autograder reference
 
-`git-autograder` is the verification library used by Git-Mastery exercise `verify.py` scripts.
+`git-autograder` is the grading library that loads a Git-Mastery exercise attempt and turns repository or answer checks into structured verification results.
 
-## Typical use in Git-Mastery
+## Installation
 
-- Load and inspect a student's exercise repository
-- Produce structured grading comments and statuses
-- Provide reusable helpers over raw Git access
+```bash
+pip install git-autograder
+```
 
-## Basic example
+## Basic structure of a `verify.py`
 
 ```python
 from git_autograder import (
@@ -23,64 +23,279 @@ from git_autograder import (
     GitAutograderStatus,
 )
 
+SOME_ERROR = "You haven't done X yet."
+
 
 def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
-    return exercise.to_output([], GitAutograderStatus.SUCCESSFUL)
+    main = exercise.repo.branches.branch("main")
+
+    if not main.user_commits:
+        raise exercise.wrong_answer([SOME_ERROR])
+
+    return exercise.to_output(["Well done!"], GitAutograderStatus.SUCCESSFUL)
 ```
 
-## Core concepts
+The app calls `verify(exercise)` directly. All exception handling and output formatting is done by the app.
 
-### `GitAutograderExercise`
+---
 
-This is the main entrypoint used by exercise verification scripts.
+## `GitAutograderExercise`
 
-It:
+The main object passed to every `verify(exercise)` function.
 
-- reads `.gitmastery-exercise.json`
-- loads the student's working repository
-- exposes `exercise_name`, `config`, and `repo`
-- provides `to_output(...)` and `wrong_answer(...)`
+| Attribute / Method | Description |
+|---|---|
+| `exercise.exercise_name` | Exercise identifier (from config) |
+| `exercise.exercise_path` | Path to the exercise root directory |
+| `exercise.config` | Parsed `.gitmastery-exercise.json` as `ExerciseConfig` |
+| `exercise.repo` | `GitAutograderRepo` (or `NullGitAutograderRepo` for `ignore` exercises) |
+| `exercise.answers` | Parsed `answers.txt` as `GitAutograderAnswers` |
+| `exercise.to_output(comments, status)` | Build the return value |
+| `exercise.wrong_answer(comments)` | Raise a grading failure |
+| `exercise.read_config(key)` | Read a key from `.gitmastery-exercise.json` |
+| `exercise.write_config(key, value)` | Write a key to `.gitmastery-exercise.json` |
 
-### `GitAutograderOutput`
+### Exception types
 
-Verification scripts return a `GitAutograderOutput` containing:
+| Exception | When to use |
+|---|---|
+| `GitAutograderWrongAnswerException` | The student's attempt is incorrect → `UNSUCCESSFUL` |
+| `GitAutograderInvalidStateException` | The exercise is in an invalid state → `ERROR` |
 
-- `status`
-- `started_at`
-- `completed_at`
-- `comments`
-- `exercise_name`
+Use `raise exercise.wrong_answer([...])` for grading failures. Reserve bare exceptions for unexpected errors only.
 
-### `GitAutograderStatus`
+---
 
-The current statuses are:
+## `exercise.repo` — repository helpers
 
-- `SUCCESSFUL`
-- `UNSUCCESSFUL`
-- `ERROR`
+`exercise.repo` is a `GitAutograderRepo` for most exercises. For `ignore` and `local-ignore` exercises it is a `NullGitAutograderRepo` that raises on any Git access.
 
-## Repository modes
+### `exercise.repo.branches` — `BranchHelper`
 
-For normal exercises, `exercise.repo` wraps a real Git repository.
+```python
+branch = exercise.repo.branches.branch("main")       # raises if missing
+branch = exercise.repo.branches.branch_or_none("main")  # returns None if missing
+exists = exercise.repo.branches.has_branch("feature/login")
+```
 
-For `repo_type: ignore`, `exercise.repo` becomes a null repository wrapper. Accessing Git-specific properties on it raises an error, which helps catch verification code that assumes a repository exists when it should not.
+#### `GitAutograderBranch`
 
-## Answers support
+| Property / Method | Description |
+|---|---|
+| `branch.name` | Branch name |
+| `branch.commits` | All commits (newest first) |
+| `branch.user_commits` | Commits after the start tag (student's work) |
+| `branch.latest_commit` | Most recent commit |
+| `branch.latest_user_commit` | Most recent student commit |
+| `branch.start_commit` | The Git-Mastery start tag commit |
+| `branch.reflog` | List of `GitAutograderReflogEntry` |
+| `branch.has_non_empty_commits()` | True if any student commit changed files |
+| `branch.has_edited_file(path)` | True if the file was modified since the start tag |
+| `branch.has_added_file(path)` | True if the file was added since the start tag |
+| `branch.checkout()` | Checkout this branch |
 
-`GitAutograderExercise.answers` parses `answers.txt` from the exercise root on demand.
+Example — check that the student committed on `main`:
 
-It supports question-and-answer style validation and can accumulate validation rules before calling `validate()`.
+```python
+main = exercise.repo.branches.branch("main")
+if not main.user_commits:
+    raise exercise.wrong_answer(["You have no commits on main yet."])
+```
 
-## Typical verification flow
+### `exercise.repo.commits` — `CommitHelper`
 
-1. Construct `GitAutograderExercise`
-2. Inspect repository state through `exercise.repo`
-3. Optionally inspect `exercise.answers`
-4. Raise `exercise.wrong_answer([...])` for incorrect submissions
-5. Return `exercise.to_output([...], GitAutograderStatus.SUCCESSFUL)` on success
+```python
+commit = exercise.repo.commits.commit("HEAD")
+commit = exercise.repo.commits.commit_or_none("abc1234")
+```
+
+#### `GitAutograderCommit`
+
+| Property / Method | Description |
+|---|---|
+| `commit.hexsha` | Full commit SHA |
+| `commit.stats` | GitPython `Stats` object (files changed) |
+| `commit.parents` | List of `GitAutograderCommit` |
+| `commit.branches` | Branch names that contain this commit |
+| `commit.is_child(parent)` | True if this commit descends from `parent` |
+| `commit.file_change_type(file)` | `"A"`, `"M"`, `"D"`, or `None` |
+| `commit.file(path)` | Context manager yielding the file contents at this commit |
+| `commit.checkout()` | Detach HEAD to this commit |
+
+### `exercise.repo.remotes` — `RemoteHelper`
+
+```python
+remote = exercise.repo.remotes.remote("origin")          # raises if missing
+remote = exercise.repo.remotes.remote_or_none("origin")  # returns None
+exists = exercise.repo.remotes.has_remote("origin")
+```
+
+#### `GitAutograderRemote`
+
+Wraps a GitPython `Remote`.
+
+| Method | Description |
+|---|---|
+| `remote.remote` | The underlying GitPython `Remote` object |
+| `remote.is_for_repo(owner, repo_name)` | True if the remote URL points to `owner/repo_name` on GitHub (supports both HTTPS and SSH URLs) |
+| `remote.track_branches(branches)` | Check out remote-tracking branches locally |
+
+Example — verify the remote points to the right repository:
+
+```python
+origin = exercise.repo.remotes.remote("origin")
+if not origin.is_for_repo("git-mastery", "exercises"):
+    raise exercise.wrong_answer(["Your remote 'origin' does not point to the correct repository."])
+```
+
+### `exercise.repo.files` — `FileHelper`
+
+```python
+# Open a file if it exists
+with exercise.repo.files.file_or_none("notes.txt") as f:
+    content = f.read() if f else None
+
+# Open a file (raises if missing)
+with exercise.repo.files.file("notes.txt") as f:
+    content = f.read()
+
+# List untracked files
+untracked = exercise.repo.files.untracked_files()
+```
+
+### Raw GitPython access
+
+If no helper covers your use case, access the underlying GitPython repo directly:
+
+```python
+exercise.repo.repo   # GitPython Repo object
+```
+
+---
+
+## `exercise.answers` — answer file support
+
+For exercises where students fill in an `answers.txt` file.
+
+### `answers.txt` format
+
+```
+Q: What does git add do?
+A: Stages changes for the next commit
+
+Q: What does git commit do?
+A: Records staged changes to the repository
+```
+
+### Usage
+
+`answers.question(q)` and `answers.question_or_none(q)` return a `GitAutograderAnswersRecord` with two attributes:
+
+| Attribute | Description |
+|---|---|
+| `record.question` | The question string |
+| `record.answer` | The student's answer string |
+
+```python
+answers = exercise.answers
+
+# Get a specific answer (raises GitAutograderInvalidStateException if missing)
+record = answers.question("What does git add do?")
+print(record.answer)
+
+# Safe access — returns None if the question is not present
+record = answers.question_or_none("What does git add do?")
+if record is None:
+    raise exercise.wrong_answer(["Missing answer for 'What does git add do?'"])
+
+# Validate answers with rules, then call validate() to apply them all at once
+from git_autograder.answers.rules.not_empty_rule import NotEmptyRule
+from git_autograder.answers.rules.has_exact_value_rule import HasExactValueRule
+from git_autograder.answers.rules.contains_value_rule import ContainsValueRule
+
+answers.add_validation("What does git add do?", NotEmptyRule())
+answers.add_validation("Name a git command", HasExactValueRule("git commit"))
+answers.validate()  # raises GitAutograderWrongAnswerException if any rule fails
+```
+
+### Available answer rules
+
+| Rule | Description |
+|---|---|
+| `NotEmptyRule` | Answer must not be blank |
+| `HasExactValueRule(value)` | Answer must equal `value` exactly (case-insensitive) |
+| `ContainsValueRule(value)` | Answer must contain `value` (case-insensitive) |
+| `ContainsListRule(values)` | Answer must contain all values in the list |
+| `HasExactListRule(values)` | Answer must match all values in the list exactly |
+
+All rules are in `git_autograder.answers.rules`.
+
+### In tests
+
+Mock `answers.txt` content via `GitAutograderTestLoader`:
+
+```python
+with loader.start(mock_answers={"What does git add do?": "Stages changes"}) as (test, rs):
+    output = test.run()
+    assert_output(output, GitAutograderStatus.SUCCESSFUL)
+```
+
+---
+
+## `GitAutograderStatus`
+
+| Value | Meaning |
+|---|---|
+| `SUCCESSFUL` | Student completed the exercise correctly |
+| `UNSUCCESSFUL` | Student's attempt is incorrect or incomplete |
+| `ERROR` | Exercise is in an invalid or unexpected state |
+
+---
+
+## `GitAutograderOutput`
+
+Built by `exercise.to_output(comments, status)`. Contains:
+
+| Field | Type | Description |
+|---|---|---|
+| `exercise_name` | `str` | Exercise identifier |
+| `started_at` | `datetime` | When `GitAutograderExercise` was constructed |
+| `completed_at` | `datetime` | When `to_output` was called |
+| `comments` | `List[str]` | Feedback shown to the student |
+| `status` | `GitAutograderStatus` | Final result |
+
+---
+
+## Full example — branch check
+
+```python
+from git_autograder import (
+    GitAutograderExercise,
+    GitAutograderOutput,
+    GitAutograderStatus,
+)
+
+NOT_ON_MAIN = "You aren't on the main branch. Run 'git checkout main'."
+NO_COMMITS = "You haven't committed your changes yet."
+SUCCESS = "Great work! Your changes are committed to main."
+
+
+def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
+    try:
+        active = exercise.repo.repo.active_branch.name
+    except TypeError:
+        raise exercise.wrong_answer(["You are in a detached HEAD state."])
+
+    if active != "main":
+        raise exercise.wrong_answer([NOT_ON_MAIN])
+
+    main = exercise.repo.branches.branch("main")
+    if not main.user_commits:
+        raise exercise.wrong_answer([NO_COMMITS])
+
+    return exercise.to_output([SUCCESS], GitAutograderStatus.SUCCESSFUL)
+```
 
 {: .reference }
 
-See [How to add an exercise](/developers/docs/exercises/exercise) and [Verification flow](/developers/docs/exercises/verification-workflow) for how `git-autograder` is used inside the main Git-Mastery exercise flow.
-
-For implementation details, refer to the [`git-autograder` repository](https://github.com/git-mastery/git-autograder).
+See [How to add an exercise](/developers/docs/exercises/exercise) and [Verification flow](/developers/docs/exercises/verification-workflow) for how this fits into the full exercise lifecycle.

@@ -35,7 +35,7 @@ Use the guidance on this page as the default when setting up repositories locall
 
 4. Set up pre-commit hooks using LeftHook
 
-   {: .warning-title }
+   {: .note }
 
    > Note
    >
@@ -72,7 +72,7 @@ Use the guidance on this page as the default when setting up repositories locall
 
 4. Set up pre-commit hooks using LeftHook
 
-   {: .warning-title }
+   {: .note }
 
    > Note
    >

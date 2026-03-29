@@ -6,28 +6,23 @@ nav_order: 2
 
 # Configuration reference
 
-The app uses local configuration files to track Git-Mastery setup and exercise metadata.
-
-## Important files
-
-- `.gitmastery.json`: local Git-Mastery configuration
-- `.gitmastery-exercise.json`: metadata for a downloaded exercise
+The app uses two JSON files to manage state: one for the Git-Mastery workspace and one per downloaded exercise.
 
 ## `.gitmastery.json`
 
-This file lives at the Git-Mastery root created by `gitmastery setup`.
+Created by `gitmastery setup` in the Git-Mastery root directory.
 
-### Main fields
-
-- `progress_local`: whether local progress tracking is enabled
-- `progress_remote`: whether progress sync to GitHub is enabled
-- `exercises_source`: where the app should fetch exercises from
+| Field              | Type     | Description                                 |
+| ------------------ | -------- | ------------------------------------------- |
+| `progress_local`   | `bool`   | Whether local progress tracking is enabled  |
+| `progress_remote`  | `bool`   | Whether progress is synced to a GitHub fork |
+| `exercises_source` | `object` | Where the app fetches exercises from        |
 
 ### `exercises_source`
 
-The app supports both remote and local exercise sources.
+Two source types are supported:
 
-Remote source shape:
+**Remote** (default):
 
 ```json
 {
@@ -38,7 +33,7 @@ Remote source shape:
 }
 ```
 
-Local source shape:
+**Local** (for co-developing `app` and `exercises`):
 
 ```json
 {
@@ -47,72 +42,51 @@ Local source shape:
 }
 ```
 
-When `type` is `local`, the app copies the local exercises repository into a temporary directory and reads exercises from there. This is useful when developing `app` and `exercises` together.
+With `type: local`, the app copies the local exercises directory into a temp directory at runtime. This means changes you make in your local `exercises/` clone are picked up immediately without needing to push to GitHub — useful when developing `app` and `exercises` together.
 
-### Local co-development example
+To point at a fork or a feature branch, change `username` or `branch` in the remote config.
 
-If you are working on `app` and want it to use a local checkout of `exercises`, update `.gitmastery.json` like this:
-
-```json
-{
-  "progress_local": true,
-  "progress_remote": false,
-  "exercises_source": {
-    "type": "local",
-    "repo_path": "/Users/you/dev/exercises"
-  }
-}
-```
-
-This lets `gitmastery download` and `gitmastery verify` read exercise content from your local `exercises` clone instead of GitHub.
-
-### Remote source override example
-
-You can also point the app at a fork or branch of `exercises`:
-
-```json
-{
-  "progress_local": true,
-  "progress_remote": false,
-  "exercises_source": {
-    "type": "remote",
-    "username": "<your-username>",
-    "repository": "exercises",
-    "branch": "feature/my-branch"
-  }
-}
-```
+---
 
 ## `.gitmastery-exercise.json`
 
-This file lives in each downloaded exercise root.
+Created per exercise by `gitmastery download`. Lives in the exercise root.
 
-### Main fields
-
-- `exercise_name`
-- `tags`
-- `requires_git`
-- `requires_github`
-- `base_files`
-- `exercise_repo`
-- `downloaded_at`
+| Field             | Type       | Description                                                                                                             |
+| ----------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `exercise_name`   | `string`   | Exercise identifier used for progress tracking                                                                          |
+| `tags`            | `string[]` | Used for indexing on the exercise directory                                                                             |
+| `requires_git`    | `bool`     | If true, app checks Git installation and `user.name`/`user.email` before download                                       |
+| `requires_github` | `bool`     | If true, app checks GitHub CLI authentication before download                                                           |
+| `base_files`      | `object`   | Map of destination filename to source path in `res/`; these files are copied to the exercise root alongside `README.md` |
+| `exercise_repo`   | `object`   | Controls what working repository the student receives                                                                   |
+| `downloaded_at`   | `string`   | ISO timestamp of when the exercise was downloaded                                                                       |
 
 ### `exercise_repo`
 
-The app currently understands these repository modes:
+| Field               | Type     | Description                                                  |
+| ------------------- | -------- | ------------------------------------------------------------ |
+| `repo_type`         | `string` | One of `local`, `remote`, `ignore`, `local-ignore`           |
+| `repo_name`         | `string` | Name of the subfolder created for the student                |
+| `init`              | `bool`   | Whether to run `git init` (used with `local`)                |
+| `create_fork`       | `bool`   | Whether to fork the remote repo to the student's account     |
+| `fork_all_branches` | `bool`   | Whether all branches are included in the fork (remote only)  |
+| `repo_title`        | `string` | Name of the GitHub repository to clone or fork (remote only) |
 
-- `local`
-- `remote`
-- `ignore`
-- `local-ignore`
+### `repo_type` values
 
-These fields control whether the app creates a local repository, clones a remote repository, skips repository creation, or creates a folder without initializing Git.
+| Value          | Behaviour                                                       |
+| -------------- | --------------------------------------------------------------- |
+| `local`        | Creates a local folder, optionally runs `git init`              |
+| `remote`       | Clones or fork-and-clones a GitHub repository                   |
+| `ignore`       | No repository created; `exercise.repo` is a null wrapper        |
+| `local-ignore` | Creates a folder without `git init`; student runs it themselves |
 
-For remote exercises, the app may also read `fork_all_branches` when creating a student fork.
+## How commands use these files
 
-## How the app uses these files
-
-- `setup` writes `.gitmastery.json`
-- `download` reads the Git-Mastery root config, then writes or updates `.gitmastery-exercise.json`
-- `verify` reads the exercise config to determine how the exercise should be graded
-- `progress` reads the Git-Mastery root config to determine whether local or remote sync is enabled
+| Command    | Reads                       | Writes                              |
+| ---------- | --------------------------- | ----------------------------------- |
+| `setup`    | —                           | `.gitmastery.json`                  |
+| `download` | `.gitmastery.json`          | `.gitmastery-exercise.json`         |
+| `verify`   | `.gitmastery-exercise.json` | `progress/progress.json`            |
+| `progress` | `.gitmastery.json`          | `.gitmastery.json` (on sync toggle) |

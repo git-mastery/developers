@@ -1,52 +1,65 @@
 ---
 title: Progress tracking
 parent: App
-nav_order: 4
+nav_order: 3
 ---
 
 # Progress tracking
 
-The app is responsible for writing and syncing exercise progress based on verification results.
-
-Progress data is part of the wider Git-Mastery ecosystem and can be consumed by other repositories such as `progress-dashboard`.
+The app records exercise progress locally after every `verify` run, and can optionally sync it to a GitHub-hosted progress repository.
 
 ## Local progress
 
-`gitmastery setup` creates a `progress/` folder inside the Git-Mastery root.
+`gitmastery setup` creates a `progress/` folder inside the Git-Mastery root with an empty `progress.json`.
 
-After each `gitmastery verify` run, the app appends a new entry to `progress/progress.json` with:
+After each `gitmastery verify`, the app appends a new entry:
 
-- `exercise_name`
-- `started_at`
-- `completed_at`
-- `comments`
-- `status`
+```json
+{
+  "exercise_name": "branch-bender",
+  "started_at": 1700000000.0,
+  "completed_at": 1700000010.0,
+  "comments": ["Great work!"],
+  "status": "Completed"
+}
+```
 
-The app keeps a history of attempts, but `gitmastery progress show` displays the latest known entry for each exercise.
+The `status` field maps from `GitAutograderStatus`:
+
+| `GitAutograderStatus` | Written as     |
+| --------------------- | -------------- |
+| `SUCCESSFUL`          | `"Completed"`  |
+| `UNSUCCESSFUL`        | `"Incomplete"` |
+| `ERROR`               | `"Error"`      |
+
+{: .note }
+If the exercise already has a `Completed` entry, subsequent attempts are not recorded.
+
+`gitmastery progress show` displays the latest entry per exercise.
 
 ## Remote sync
 
-When a user runs `gitmastery progress sync on`, the app:
+```mermaid
+flowchart TD
+    A([gitmastery progress sync on]) --> B[Check Git + GitHub CLI]
+    B --> C[Fork git-mastery/progress]
+    C --> D[Clone fork into progress/]
+    D --> E[Merge local + remote entries]
+    E --> F[Push to fork]
+    F --> G{PR exists?}
+    G -- No --> H[Open PR to git-mastery/progress]
+    G -- Yes --> I([Done])
+    H --> I
+```
 
-1. Checks Git and GitHub CLI prerequisites
-2. Creates or reuses the user's fork of the progress repository
-3. Replaces the local `progress/` folder with a clone of that fork
-4. Merges local and remote progress entries
-5. Pushes changes and opens a PR if needed
+Once sync is on, every subsequent `verify` run pushes the new progress entry to the fork. `progress reset` also removes the exercise entry from the fork.
 
-When remote sync is enabled, later `verify` and `progress reset` runs also update the remote fork.
+`gitmastery progress sync off` removes the fork from GitHub, switches `.gitmastery.json` back to local-only mode, and recreates a plain local `progress/` folder preserving existing entries.
 
-## Turning sync off
+## Reset
 
-`gitmastery progress sync off` deletes the remote progress fork, switches `.gitmastery.json` back to local-only tracking, and recreates a plain local `progress/` folder containing the existing progress entries.
-
-## Reset behavior
-
-`gitmastery progress reset` does two things for the current exercise:
-
-- recreates the exercise workspace
-- removes saved progress entries for that exercise from `progress.json`
+`gitmastery progress reset` removes the current exercise's entries from `progress.json` and recreates the exercise workspace.
 
 {: .reference }
 
-See [Download and verification flow](/developers/docs/app/download-and-verify-flow) for the command orchestration that happens before progress is updated.
+See [Download and verification flow](/developers/docs/app/download-and-verify-flow) for how progress is updated during the verify step.
