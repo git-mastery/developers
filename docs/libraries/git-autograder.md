@@ -1,10 +1,10 @@
 ---
-title: git-autograder
-parent: Libraries
+title: git-autograder reference
+parent: Shared libraries
 nav_order: 2
 ---
 
-# git-autograder
+# git-autograder reference
 
 `git-autograder` is the verification library used by Git-Mastery exercise `verify.py` scripts.
 
@@ -81,6 +81,6 @@ It supports question-and-answer style validation and can accumulate validation r
 
 {: .reference }
 
-See [Exercise](/developers/docs/exercises/exercise) and [Verification workflow](/developers/docs/exercises/verification-workflow) for how `git-autograder` is used inside the main Git-Mastery exercise flow.
+See [How to add an exercise](/developers/docs/exercises/exercise) and [Verification flow](/developers/docs/exercises/verification-workflow) for how `git-autograder` is used inside the main Git-Mastery exercise flow.
 
 For implementation details, refer to the [`git-autograder` repository](https://github.com/git-mastery/git-autograder).

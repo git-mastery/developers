@@ -19,9 +19,10 @@ The [`exercises`](https://github.com/git-mastery/exercises) repository contains 
 
 ## Suggested reading
 
-1. [Hands-on](/developers/docs/exercises/hands-on)
-2. [Exercise](/developers/docs/exercises/exercise)
-3. [Exercise structure](/developers/docs/exercises/exercise-structure)
-4. [Download workflow](/developers/docs/exercises/download-workflow)
-5. [Verification workflow](/developers/docs/exercises/verification-workflow)
-6. [Testing patterns](/developers/docs/exercises/testing-patterns)
+1. [How to add a hands-on](/developers/docs/exercises/hands-on)
+2. [How to add an exercise](/developers/docs/exercises/exercise)
+3. [Exercise format reference](/developers/docs/exercises/exercise-structure)
+4. [Download flow](/developers/docs/exercises/download-workflow)
+5. [Verification flow](/developers/docs/exercises/verification-workflow)
+6. [Testing guide](/developers/docs/exercises/testing-patterns)
+7. [Exercise utilities reference](/developers/docs/exercises/exercise-utils)

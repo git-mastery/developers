@@ -1,10 +1,10 @@
 ---
-title: Verification workflow
+title: Verification flow
 parent: Exercises
 nav_order: 5
 ---
 
-# Verification workflow
+# Verification flow
 
 Exercise verification is driven by the student's local exercise metadata and the exercise's `verify.py` script.
 

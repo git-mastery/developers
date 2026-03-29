@@ -1,10 +1,10 @@
 ---
-title: Setup
-parent: Getting Started
+title: Development setup
+parent: Getting started
 nav_order: 1
 ---
 
-# Setup
+# Development setup
 
 Git-Mastery is standardizing on a `uv`-first local development workflow.
 

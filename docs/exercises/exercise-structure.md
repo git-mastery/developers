@@ -1,10 +1,10 @@
 ---
-title: Exercise structure
+title: Exercise format reference
 parent: Exercises
 nav_order: 3
 ---
 
-# Exercise structure
+# Exercise format reference
 
 Exercises follow a fixed structure for the Git-Mastery app to pick up on:
 

@@ -1,8 +1,10 @@
 ---
-title: Exercise utilities
+title: Exercise utilities reference
 parent: Exercises
-nav_order: 6
+nav_order: 7
 ---
+
+# Exercise utilities reference
 
 These utilities are contained within the [`exercises/exercise_utils` module](https://github.com/git-mastery/exercises/tree/main/exercise_utils).
 

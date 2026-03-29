@@ -1,10 +1,10 @@
 ---
-title: Configuration
+title: Configuration reference
 parent: App
 nav_order: 2
 ---
 
-# Configuration
+# Configuration reference
 
 The app uses local configuration files to track Git-Mastery setup and exercise metadata.
 

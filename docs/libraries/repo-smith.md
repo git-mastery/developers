@@ -1,10 +1,10 @@
 ---
-title: repo-smith
-parent: Libraries
+title: repo-smith reference
+parent: Shared libraries
 nav_order: 1
 ---
 
-# repo-smith
+# repo-smith reference
 
 `repo-smith` is a YAML-based library for initializing Git repositories for unit testing.
 
@@ -101,6 +101,6 @@ def test_with_hook() -> None:
 
 {: .reference }
 
-See [Exercises testing patterns](/developers/docs/exercises/testing-patterns) for how this is typically wrapped inside `exercises` tests.
+See [Testing guide](/developers/docs/exercises/testing-patterns) for how this is typically wrapped inside `exercises` tests.
 
 For the full field-level specification, refer to `repo-smith/specification.md` in the [`repo-smith` repository](https://github.com/git-mastery/repo-smith).

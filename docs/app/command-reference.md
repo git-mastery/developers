@@ -1,10 +1,10 @@
 ---
-title: Command reference
+title: CLI command reference
 parent: App
 nav_order: 1
 ---
 
-# Command reference
+# CLI command reference
 
 The `gitmastery` CLI is the main entrypoint for local Git-Mastery workflows.
 
@@ -61,3 +61,19 @@ The REPL accepts both Git-Mastery commands and shell commands:
 - Use `/verify` or `gitmastery verify` for Git-Mastery commands
 - Use `cd` to change directories inside the REPL
 - Any other command is executed through the local shell
+
+## E2E test coverage
+
+The current E2E suite lives under `app/tests/e2e` and includes coverage for:
+
+- `check`
+- `setup`
+- `download`
+- `verify`
+- `progress`
+- `version`
+- the REPL
+
+If you add a new top-level command or change the visible behavior of an existing command, add or update E2E tests in `app/tests/e2e` so the built CLI behavior stays covered.
+
+The CI workflows run the E2E suite through `uv run pytest tests/e2e/ -v` after building the binary and setting `GITMASTERY_BINARY`.

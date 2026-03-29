@@ -1,10 +1,10 @@
 ---
-title: Common workflows
-parent: Getting Started
+title: Common contributor workflows
+parent: Getting started
 nav_order: 2
 ---
 
-# Common workflows
+# Common contributor workflows
 
 ## Choosing a repository
 
@@ -20,6 +20,7 @@ nav_order: 2
   - `exercises`: `uv venv && source .venv/bin/activate && uv pip install -r requirements.txt`
 - Run Python tests:
   - `app`: `uv run pytest`
+  - `app` E2E CLI tests: build the binary, set `GITMASTERY_BINARY`, then run `uv run pytest tests/e2e/ -v`
   - `repo-smith`: `uv run pytest -s -vv`
   - `git-autograder`: `uv run pytest -s -vv`
   - `exercises`: `./test.sh <exercise-folder>` or `pytest . -s -vv`
@@ -40,7 +41,8 @@ nav_order: 2
 1. Work in `app`
 2. Update the relevant command or config logic
 3. Re-run the local CLI using `uv run python main.py`
-4. Test against a local Git-Mastery exercises directory
+4. Add or update E2E tests when the command surface or user-visible behavior changes
+5. Test against a local Git-Mastery exercises directory
 
 ### Extend verification helpers
 

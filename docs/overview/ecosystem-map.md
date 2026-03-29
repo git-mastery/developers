@@ -1,10 +1,10 @@
 ---
-title: Ecosystem map
+title: System overview
 parent: Overview
 nav_order: 1
 ---
 
-# Ecosystem map
+# System overview
 
 The main Git-Mastery repositories work together as follows:
 

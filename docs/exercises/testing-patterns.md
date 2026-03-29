@@ -1,10 +1,10 @@
 ---
-title: Testing patterns
+title: Testing guide
 parent: Exercises
 nav_order: 6
 ---
 
-# Testing patterns
+# Testing guide
 
 Exercise verification tests usually focus on repository end states rather than replaying the entire student workflow.
 

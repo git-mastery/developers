@@ -1,8 +1,10 @@
 ---
-title: Exercise
+title: How to add an exercise
 parent: Exercises
 nav_order: 2
 ---
+
+# How to add an exercise
 
 1. TOC
 {:toc}
@@ -31,11 +33,11 @@ Then, the script will prompt you for:
 
 1. The name of the exercise, likely specified in the corresponding exercise discussion. Use kebab case.
 2. The exercise tags, split by spaces, likely specified in the corresponding exercise discussion.
-3. The exercise repository type. The scaffold currently supports `local`, `remote`, and `ignore` directly. Read the [Exercise structure](/developers/docs/exercises/exercise-structure#configuration-structure) section for more information.
+3. The exercise repository type. The scaffold currently supports `local`, `remote`, and `ignore` directly. Read the [Exercise format reference](/developers/docs/exercises/exercise-structure#configuration-structure) section for more information.
 
 {: .reference }
 
-Refer to the [Exercise structure](/developers/docs/exercises/exercise-structure) page for more information about the generated folder structure.
+Refer to the [Exercise format reference](/developers/docs/exercises/exercise-structure) page for more information about the generated folder structure.
 
 ## Download setup
 
@@ -45,13 +47,13 @@ The app loads `download.py` dynamically from the exercises source, reads `__reso
 
 {: .reference }
 
-For more information about how Git-Mastery downloads exercises, refer to the [Download workflow](/developers/docs/exercises/download-workflow).
+For more information about how Git-Mastery downloads exercises, refer to the [Download flow](/developers/docs/exercises/download-workflow).
 
 {: .note }
 
 > `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. They provide simple wrappers around common functionality such as `exercise_utils.cli.run_command` to invoke commands and `exercise_utils.file.create_or_update_file` to create or update files.
 >
-> For the full list of utility functions, refer to [Exercise utilities](/developers/docs/exercises/exercise-utils).
+> For the full list of utility functions, refer to [Exercise utilities reference](/developers/docs/exercises/exercise-utils).
 
 These are some references for download setups for other exercises:
 
@@ -82,7 +84,7 @@ The verification process is controlled by `verify.py`.
 
 {: .reference }
 
-For more information about how Git-Mastery verifies exercise attempts, refer to the [Verification workflow](/developers/docs/exercises/verification-workflow).
+For more information about how Git-Mastery verifies exercise attempts, refer to the [Verification flow](/developers/docs/exercises/verification-workflow).
 
 The [`git-autograder`](https://github.com/git-mastery/git-autograder) library builds the `GitAutograderExercise` object passed to `verify(...)`. It exposes the exercise config, the working repository, and optional answer parsing.
 
@@ -126,7 +128,7 @@ Refer to existing `test_verify.py` files to see examples of unit testing the ver
 
 {: .reference }
 
-See [Testing patterns](/developers/docs/exercises/testing-patterns) for the recommended `GitAutograderTestLoader` workflow.
+See [Testing guide](/developers/docs/exercises/testing-patterns) for the recommended `GitAutograderTestLoader` workflow.
 
 You can run the unit tests of your exercise via:
 

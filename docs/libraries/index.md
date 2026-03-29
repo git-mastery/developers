@@ -1,10 +1,10 @@
 ---
-title: Libraries
+title: Shared libraries
 nav_order: 6
 has_children: true
 ---
 
-# Libraries
+# Shared libraries
 
 Git-Mastery maintains reusable libraries that support exercise verification and testing.
 
@@ -20,10 +20,6 @@ These libraries are most relevant when you are working on reusable grading behav
 - Reach for `repo-smith` when your test needs a specific repository history or working tree state.
 - Reach for `git-autograder` when multiple exercises would benefit from the same verification helper or abstraction.
 
-{: .reference }
+## Scope of this section
 
-For a broader decision guide across repositories, see [Choosing where to change](/developers/docs/overview/choosing-where-to-change).
-
-## Additional published packages
-
-- [`difflib-parser`](https://github.com/git-mastery/difflib-parser)
+This section focuses on the two shared libraries that new Git-Mastery contributors are most likely to touch while working on verification behavior or test infrastructure.

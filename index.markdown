@@ -9,20 +9,21 @@ nav_order: 1
 {: .fs-6 .fw-300 }
 Developer documentation for the Git-Mastery ecosystem.
 
-Git-Mastery spans multiple repositories that support hands-ons, exercises, verification, and local CLI workflows.
+## What is Git-Mastery?
+
+Git-Mastery is a Git education tool developed by the National University of Singapore School of Computing to help students master Git through hands-on, guided tours with real-world scenario exercises.
 
 ## Start here
 
-- New contributor: [Getting Started](/developers/docs/getting-started)
+- New contributor: [Getting started](/developers/docs/getting-started)
 - Exercise contributor: [Exercises](/developers/docs/exercises)
 - CLI contributor: [App](/developers/docs/app)
-- Library contributor: [Libraries](/developers/docs/libraries)
+- Library contributor: [Shared libraries](/developers/docs/libraries)
 - System view: [Overview](/developers/docs/overview)
 
 ## Quick paths
 
-- Need help deciding which repo to change? Start with [Choosing where to change](/developers/docs/overview/choosing-where-to-change)
-- Want to understand how repos fit together? Read the [Ecosystem map](/developers/docs/overview/ecosystem-map)
+- Want to understand how repos fit together? Read the [System overview](/developers/docs/overview/ecosystem-map)
 
 ## Core repositories
 

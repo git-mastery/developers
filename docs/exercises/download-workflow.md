@@ -1,8 +1,10 @@
 ---
-title: Download workflow
+title: Download flow
 parent: Exercises
 nav_order: 4
 ---
+
+# Download flow
 
 ## General download sequence
 

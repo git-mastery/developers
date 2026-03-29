@@ -1,8 +1,10 @@
 ---
-title: Hands-on
+title: How to add a hands-on
 parent: Exercises
 nav_order: 1
 ---
+
+# How to add a hands-on
 
 1. TOC
 {:toc}
@@ -43,21 +45,61 @@ Then, the script will prompt you for:
 2. Whether the hands-on requires Git
 3. Whether the hands-on requires GitHub
 
-{: .reference }
-
-Refer to the [Hands-on structure](/developers/docs/exercises/hands-on-structure) page for more information about the generated file structure.
-
 Each hands-on is implemented as a single file at `hands_on/<hands-on name>.py`, containing the instructions to set up the hands-on sandbox.
 
+## Hands-on file format
+
+All hands-ons are stored within the `hands_on` folder of the [`exercises`](https://github.com/git-mastery/exercises) repository.
+
+They are represented by a single Python file whose name is the hands-on ID.
+
+Hands-ons are not graded and progress is not tracked. They only help set up the student's folder structure for a given lesson.
+
+{: .note }
+
+Git-Mastery uses the format `hp-<hands-on-name>` for hands-on names, for example `hp-init-repo`, to differentiate them from exercise names. Internally, the `hands_on/` folder stores the Python files, for example `hands_on/init_repo.py`.
+
+```python
+import os
+
+from exercise_utils.cli import run_command
+from exercise_utils.file import append_to_file, create_or_update_file
+from exercise_utils.git import add, init
+
+__requires_git__ = True
+__requires_github__ = False
+
+
+def download(verbose: bool):
+    os.makedirs("things")
+    os.chdir("things")
+    init(verbose)
+    create_or_update_file(
+        "fruits.txt",
+        """
+        apples
+        bananas
+        cherries
+        """,
+    )
+    add(["fruits.txt"], verbose)
+    run_command(["git", "add", "fruits.txt"], verbose)
+    append_to_file("fruits.txt", "dragon fruits")
+```
+
+The setup instructions go under the `download` function.
+
+`__requires_git__` and `__requires_github__` tell the app whether to run automatic verification that the student has set up Git and GitHub CLI correctly.
+
 {: .reference }
 
-For more information about how Git-Mastery downloads a hands-on, refer to the [Download workflow](/developers/docs/exercises/download-workflow).
+For more information about how Git-Mastery downloads a hands-on, refer to the [Download flow](/developers/docs/exercises/download-workflow).
 
 {: .note }
 
 > `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. They provide simple wrappers around common functionality such as `exercise_utils.cli.run_command` to invoke commands and `exercise_utils.file.create_or_update_file` to create or update files.
 >
-> For the full list of utility functions, refer to [Exercise utilities](/developers/docs/exercises/exercise-utils).
+> For the full list of utility functions, refer to [Exercise utilities reference](/developers/docs/exercises/exercise-utils).
 
 These are some references for download setups for other hands-ons:
 

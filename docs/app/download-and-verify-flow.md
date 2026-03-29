@@ -1,10 +1,10 @@
 ---
-title: Download and verify flow
+title: Download and verification flow
 parent: App
 nav_order: 3
 ---
 
-# Download and verify flow
+# Download and verification flow
 
 This page explains how the `gitmastery` CLI coordinates exercise content from `exercises` with runtime behavior in `app`.
 

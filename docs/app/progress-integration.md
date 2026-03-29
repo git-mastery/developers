@@ -1,10 +1,10 @@
 ---
-title: Progress integration
+title: Progress tracking
 parent: App
-nav_order: 3
+nav_order: 4
 ---
 
-# Progress integration
+# Progress tracking
 
 The app is responsible for writing and syncing exercise progress based on verification results.
 
@@ -49,4 +49,4 @@ When remote sync is enabled, later `verify` and `progress reset` runs also updat
 
 {: .reference }
 
-See [Download and verify flow](/developers/docs/app/download-and-verify-flow) for the command orchestration that happens before progress is updated.
+See [Download and verification flow](/developers/docs/app/download-and-verify-flow) for the command orchestration that happens before progress is updated.

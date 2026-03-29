@@ -24,12 +24,11 @@ These repositories are part of the wider ecosystem and may receive dedicated doc
 
 ## Where to start
 
-- New contributor: start with [Getting Started](/developers/docs/getting-started)
+- New contributor: start with [Getting started](/developers/docs/getting-started)
 - Exercise contributor: go to [Exercises](/developers/docs/exercises)
 - CLI contributor: go to [App](/developers/docs/app)
-- Library contributor: go to [Libraries](/developers/docs/libraries)
+- Library contributor: go to [Shared libraries](/developers/docs/libraries)
 
 ## Useful overview pages
 
-- [Ecosystem map](/developers/docs/overview/ecosystem-map)
-- [Choosing where to change](/developers/docs/overview/choosing-where-to-change)
+- [System overview](/developers/docs/overview/ecosystem-map)
