@@ -6,9 +6,6 @@ nav_order: 2
 
 # How to add an exercise
 
-1. TOC
-{:toc}
-
 ## Before contributing
 
 If you are proposing a new exercise, instead of implementing an [already approved exercise proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22exercise%20discussion%22%20label%3A%22help%20wanted%22), make sure that you have done the following:
@@ -122,7 +119,7 @@ Some examples of verifications:
 
 ### Testing verify logic
 
-Use [`repo-smith`](https://github.com/git-mastery/repo-smith) to simulate possible student answers and verify that your grading logic correctly accepts valid attempts and flags expected mistakes. 
+Use [`repo-smith`](https://github.com/git-mastery/repo-smith) to simulate possible student answers and verify that your grading logic correctly accepts valid attempts and flags expected mistakes.
 
 Refer to existing `test_verify.py` files to see examples of unit testing the verification script.
 

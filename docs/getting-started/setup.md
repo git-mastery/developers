@@ -37,8 +37,6 @@ Use the guidance on this page as the default when setting up repositories locall
 
    {: .note }
 
-   > Note
-   >
    > Recommended to install for formatting and linting support.
 
    ```bash
@@ -74,8 +72,6 @@ Use the guidance on this page as the default when setting up repositories locall
 
    {: .note }
 
-   > Note
-   >
    > Recommended to install for formatting and linting support.
 
    ```bash

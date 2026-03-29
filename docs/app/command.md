@@ -10,6 +10,10 @@ This guide walks through adding a new top-level command to the `gitmastery` CLI.
 
 We'll use a simple `greet` command as an example throughout.
 
+{: .warning }
+
+> This is for demonstration purposes. The `greet` command is not a real feature and should not be merged into the codebase. When adding real commands, follow the same steps but implement the actual functionality needed.
+
 ---
 
 ## 1. Create the command file
@@ -41,12 +45,12 @@ def greet(name: str) -> None:
 
 ### Output helpers
 
-| Helper | When to use |
-|---|---|
-| `info(msg)` | Normal status messages |
-| `success(msg)` | Command completed successfully |
-| `warn(msg)` | Non-fatal issues or warnings |
-| `error(msg)` | Fatal issues — exits immediately |
+| Helper         | When to use                      |
+| -------------- | -------------------------------- |
+| `info(msg)`    | Normal status messages           |
+| `success(msg)` | Command completed successfully   |
+| `warn(msg)`    | Non-fatal issues or warnings     |
+| `error(msg)`   | Fatal issues — exits immediately |
 
 ---
 
@@ -120,11 +124,11 @@ def test_greet(runner: BinaryRunner, gitmastery_root: Path) -> None:
 
 ### `RunResult` assertion methods
 
-| Method | Description |
-|---|---|
-| `.assert_success()` | Asserts exit code is 0 |
-| `.assert_stdout_contains(text)` | Asserts stdout contains an exact substring |
-| `.assert_stdout_matches(pattern)` | Asserts stdout matches a regex pattern |
+| Method                            | Description                                |
+| --------------------------------- | ------------------------------------------ |
+| `.assert_success()`               | Asserts exit code is 0                     |
+| `.assert_stdout_contains(text)`   | Asserts stdout contains an exact substring |
+| `.assert_stdout_matches(pattern)` | Asserts stdout matches a regex pattern     |
 
 ---
 

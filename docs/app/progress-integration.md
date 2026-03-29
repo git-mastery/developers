@@ -41,14 +41,14 @@ If the exercise already has a `Completed` entry, subsequent attempts are not rec
 
 ```mermaid
 flowchart TD
-    A([gitmastery progress sync on]) --> B[Check Git + GitHub CLI]
-    B --> C[Fork git-mastery/progress]
-    C --> D[Clone fork into progress/]
-    D --> E[Merge local + remote entries]
-    E --> F[Push to fork]
-    F --> G{PR exists?}
-    G -- No --> H[Open PR to git-mastery/progress]
-    G -- Yes --> I([Done])
+    A(["gitmastery progress sync on"]) --> B["Check Git and GitHub CLI"]
+    B --> C["Fork git-mastery/progress"]
+    C --> D["Clone fork into progress/"]
+    D --> E["Merge local and remote entries"]
+    E --> F["Push to fork"]
+    F --> G{"PR exists?"}
+    G -- No --> H["Open PR to git-mastery/progress"]
+    G -- Yes --> I(["Done"])
     H --> I
 ```
 

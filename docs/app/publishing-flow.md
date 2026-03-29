@@ -20,9 +20,6 @@ Label the PR with one of:
 
 When the labelled PR is merged to `main`, the pipeline runs automatically.
 
-{: .warning }
-Do not push version tags manually. The automated pipeline manages tag creation. Manually pushed tags may trigger duplicate publish jobs.
-
 ## Pipeline overview
 
 ```mermaid
@@ -30,25 +27,25 @@ flowchart TD
     A([PR merged to main with bump label]) --> B[bump-version.yml]
     B --> C[Shared action creates version tag]
     C --> D[publish.yml triggered]
-    D --> E[prepare job — get latest tag]
+    D --> E["prepare job - get latest tag"]
     E --> F{should_publish?}
     F -- No --> G([Stop])
     F -- Yes --> H[Build jobs run in parallel]
 
-    H --> H1[linux-build\namd64 + arm64]
-    H --> H2[arch-build\namd64]
-    H --> H3[windows\namd64]
-    H --> H4[macos-build\namd64 + arm64]
+    H --> H1["linux-build<br/>amd64 + arm64"]
+    H --> H2["arch-build<br/>amd64"]
+    H --> H3["windows<br/>amd64"]
+    H --> H4["macos-build<br/>amd64 + arm64"]
 
     H1 --> I1[debian-build]
     I1 --> I2[debian-publish-apt]
 
-    H2 --> J1[arch-publish\nAUR]
+    H2 --> J1["arch-publish<br/>AUR"]
 
     H3 --> K1[winget-publish]
 
-    H4 --> L1[macos-publish\nHomebrew tap]
-    L1 --> L2[macos-test\nSmoke test via brew install]
+    H4 --> L1["macos-publish<br/>Homebrew tap"]
+    L1 --> L2["macos-test<br/>Smoke test via brew install"]
 ```
 
 ## Workflow files

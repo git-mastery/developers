@@ -6,9 +6,6 @@ nav_order: 1
 
 # How to add a hands-on
 
-1. TOC
-{:toc}
-
 ## What is a hands-on?
 
 [Lessons accompanying Git-Mastery App](https://nus-cs2103-ay2526s1.github.io/website/se-book-adapted/git-trail/index.html) contains hands-on practicals for students to get hands-on experience of the Git concepts covered by the lesson. Some of those hands-on practicals need to set up a sandbox containing the required folders, files, and repositories before the student can start. Git-Mastery app can set up that sandbox for students so that they can get to the practical part more easily.
