@@ -7,44 +7,27 @@ nav_order: 1
 Both hands-on and exercises reside in the same repository: [`git-mastery/exercises`](https://github.com/git-mastery/exercises). So before you start to contributing, you should have these setup already:
 
 - Bash environment
-- Python 3.13
+- Python 3.13+
 - Github CLI [installed and authenticated](https://github.com/cli/cli#installation) for testing the download script
+- uv [installed](https://docs.astral.sh/uv/getting-started/installation/)
 
 ## Setup
 
 1. Fork the repository: <https://github.com/git-mastery/exercises>
 2. Clone the fork
 
-    ```bash
-    git clone https://github.com/<username>/exercises
-    ```
+   ```bash
+   git clone https://github.com/<username>/exercises
+   ```
 
-3. Setup a virtual environment
+3. Run the following command to set up virtual environment and install dependencies:
 
-    ```bash
-    python -m venv venv
-    ```
+   ```bash
+   uv sync
+   ```
 
-4. Activate the virtual environment
+4. Set up pre-commit hooks (for linting, formatting and type checking) using LeftHook
 
-    ```bash
-    source venv/bin/activate
-    ```
-
-    If you are using Windows, you should run the following instead: 
-
-    ```bash
-    source venv/Scripts/activate
-    ```
-
-5. Install all dependencies
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-6. Install pre-commit hooks using LeftHook (installed as a dependency in `requirements.txt`)
-
-    ```bash
-    lefthook install
-    ```
+   ```bash
+   uv run lefthook install
+   ```
