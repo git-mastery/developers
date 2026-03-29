@@ -46,7 +46,7 @@ def test_base() -> None:
 Within `with loader.start() as (test, rs):`
 
 - `test.run()` executes the exercise's `verify(...)`
-- `rs` is a `RepoSmith` helper rooted at the student's working repository
+- `rs` is a [`RepoSmith`](/developers/docs/libraries/repo-smith) helper rooted at the student's working repository. It abstracts the underlying Git repository, letting you set up state with calls like `rs.git.commit(...)`, `rs.git.create_file(...)`, etc.
 
 ## Useful test options
 
@@ -70,7 +70,7 @@ with loader.start(mock_answers={"What is Git?": "Version control"}) as (test, rs
 
 ### Include a remote repository
 
-Use `include_remote_repo=True` when verification depends on remote behavior.
+Use `include_remote_repo=True` when verification depends on remote behavior (eg. pushing to remote).
 
 ```python
 with loader.start(include_remote_repo=True) as (test, rs, rs_remote):

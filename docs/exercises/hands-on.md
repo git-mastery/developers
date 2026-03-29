@@ -83,7 +83,6 @@ def download(verbose: bool):
         """,
     )
     add(["fruits.txt"], verbose)
-    run_command(["git", "add", "fruits.txt"], verbose)
     append_to_file("fruits.txt", "dragon fruits")
 ```
 
@@ -97,7 +96,7 @@ For more information about how Git-Mastery downloads a hands-on, refer to the [D
 
 {: .note }
 
-> `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. They provide simple wrappers around common functionality such as `exercise_utils.cli.run_command` to invoke commands and `exercise_utils.file.create_or_update_file` to create or update files.
+> `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. Prefer these abstractions over raw CLI calls — for example, use `exercise_utils.file.create_or_update_file` to create or update files, and `exercise_utils.git.commit` to commit changes. Fall back to `exercise_utils.cli.run_command` only when no suitable abstraction exists.
 >
 > For the full list of utility functions, refer to [Exercise utilities reference](/developers/docs/exercises/exercise-utils).
 

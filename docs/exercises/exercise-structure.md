@@ -16,9 +16,6 @@ Exercises follow a fixed structure for the Git-Mastery app to pick up on:
 ├── download.py
 ├── res
 │   └── ...
-├── tests
-│   └── specs
-│       └── base.yml
 ├── test_verify.py
 └── verify.py
 ```
@@ -28,10 +25,7 @@ Exercises follow a fixed structure for the Git-Mastery app to pick up on:
 - `download.py`: contains the download instructions to set up the student's exercise
 - `verify.py`: contains the verification script for the exercise attempt
 - `res/`: contains resources that are available to students
-- `tests/specs/`: contains specification files written using [`repo-smith`](https://github.com/git-mastery/repo-smith)
-- `test_verify.py`: contains unit tests for the verification script
-
-The scaffold created by `exercises/scripts/new-exercise.py` currently places `test_verify.py` at the exercise root, not inside `tests/`.
+- `test_verify.py`: contains unit tests for the verification script, written using [`repo-smith`](https://github.com/git-mastery/repo-smith)
 
 ## What students see
 

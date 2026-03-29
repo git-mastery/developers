@@ -33,11 +33,11 @@ Then, the script will prompt you for:
 
 1. The name of the exercise, likely specified in the corresponding exercise discussion. Use kebab case.
 2. The exercise tags, split by spaces, likely specified in the corresponding exercise discussion.
-3. The exercise repository type. The scaffold currently supports `local`, `remote`, and `ignore` directly. Read the [Exercise format reference](/developers/docs/exercises/exercise-structure#configuration-structure) section for more information.
+3. The exercise repository type. The scaffold currently supports `local`, `remote`, and `ignore` directly.
 
 {: .reference }
 
-Refer to the [Exercise format reference](/developers/docs/exercises/exercise-structure) page for more information about the generated folder structure.
+Refer to the [Exercise format reference](/developers/docs/exercises/exercise-structure) page for more information about the generated folder structure and repository type options.
 
 ## Download setup
 
@@ -51,7 +51,7 @@ For more information about how Git-Mastery downloads exercises, refer to the [Do
 
 {: .note }
 
-> `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. They provide simple wrappers around common functionality such as `exercise_utils.cli.run_command` to invoke commands and `exercise_utils.file.create_or_update_file` to create or update files.
+> `exercises` comes with a set of utility functions in the `exercise_utils` module that are made available during the download flow. Prefer these abstractions over raw CLI calls — for example, use `exercise_utils.file.create_or_update_file` to create or update files, and `exercise_utils.git.commit` to commit changes. Fall back to `exercise_utils.cli.run_command` only when no suitable abstraction exists.
 >
 > For the full list of utility functions, refer to [Exercise utilities reference](/developers/docs/exercises/exercise-utils).
 
@@ -80,7 +80,7 @@ You can find the downloaded repository under `test-downloads/`.
 
 ## Verification setup
 
-The verification process is controlled by `verify.py`.
+The verification process is controlled by `verify.py`. This file contains the grading logic that inspects the student's work and returns a result with a status and feedback comments.
 
 {: .reference }
 
@@ -120,9 +120,9 @@ Some examples of verifications:
 2. For any remote behavior to verify, provide a mock to substitute the behavior in unit tests.
 3. Prefer raising `exercise.wrong_answer([...])` for incorrect submissions and reserve unexpected exceptions for genuine errors.
 
-### Testing verification
+### Testing verify logic
 
-To test verification, Git-Mastery relies on [`repo-smith`](https://github.com/git-mastery/repo-smith) to simulate exercise states and write unit tests for the verification script's behavior. You do not need to simulate the entire flow, only the end states that matter for your verification script.
+Use [`repo-smith`](https://github.com/git-mastery/repo-smith) to simulate possible student answers and verify that your grading logic correctly accepts valid attempts and flags expected mistakes. 
 
 Refer to existing `test_verify.py` files to see examples of unit testing the verification script.
 

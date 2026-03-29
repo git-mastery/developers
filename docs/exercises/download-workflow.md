@@ -14,10 +14,15 @@ Hands-ons use the `hp-` prefix before the hands-on name.
 
 ```mermaid
 flowchart
-a[gitmastery download] --> b[Check if prefixed with hp-]
+a[gitmastery download] --> a1[Read exercises_source from .gitmastery.json]
+a1 --> b[Check if prefixed with hp-]
 b -- prefixed with hp- --> c[Download hands-on]
 b -- else --> d[Download exercise]
 ```
+
+{: .note }
+
+> The source that exercises and hands-ons are fetched from is controlled by `exercises_source` in `.gitmastery.json`. See [`exercises_source`](/developers/docs/app/configuration#exercises_source) for the full details and override options.
 
 Refer to the following sections for the specific download sequences.
 
