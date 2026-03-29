@@ -1,7 +1,7 @@
 ---
-title: Published libraries
-nav_order: 2
-parent: Tooling
+title: Published packages
+parent: Libraries
+nav_order: 3
 ---
 
 ## Published Python packages

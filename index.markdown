@@ -7,25 +7,38 @@ nav_order: 1
 # Git-Mastery Developers
 
 {: .fs-6 .fw-300 }
-Developer documentation about all things Git-Mastery.
+Developer documentation for the Git-Mastery ecosystem.
 
-## What is Git-Mastery?
+Git-Mastery spans multiple repositories that support hands-ons, exercises, verification, and local CLI workflows.
 
-Git-Mastery is a Git education tool developed by the National University of Singapore School of Computing to help students master Git through hands-on, guided tours with real-world scenario exercises.
+## Start here
 
-## Try Git-Mastery!
+- New contributor: [Getting Started](/developers/docs/getting-started)
+- Exercise contributor: [Exercises](/developers/docs/exercises)
+- CLI contributor: [App](/developers/docs/app)
+- Library contributor: [Libraries](/developers/docs/libraries)
+- System view: [Overview](/developers/docs/overview)
 
-Before contributing to Git-Mastery, it would be good if you tried it out to get a sense of what students experience.
+## Quick paths
 
-To setup Git-Mastery, refer to [this setup guide](https://git-mastery.org/companion-app/index.html) for your OS.
+- Need help deciding which repo to change? Start with [Choosing where to change](/developers/docs/overview/choosing-where-to-change)
+- Want to understand how repos fit together? Read the [Ecosystem map](/developers/docs/overview/ecosystem-map)
 
-We recommend following along with [tour 1](https://git-mastery.org/lessons/trail/recordingFolderHistory/) and [tour 2](https://git-mastery.org/lessons/trail/backingUpOnCloud/) of the Git-Mastery curriculum!
+## Core repositories
 
-## Contributor's progression
+- [`exercises`](https://github.com/git-mastery/exercises)
+- [`app`](https://github.com/git-mastery/app)
+- [`repo-smith`](https://github.com/git-mastery/repo-smith)
+- [`git-autograder`](https://github.com/git-mastery/git-autograder)
 
-You are welcome to start contributing to Git-Mastery in any way you see fit!
+## Supporting repositories
 
-However, if you are looking for a certain angle to start at, we recommend [contributing 1-2 hands-on](/developers/docs/contributing/hands-on) before diving into [contributing exercises](/developers/docs/contributing/exercise)!
+- [`progress-dashboard`](https://github.com/git-mastery/progress-dashboard)
+- [`actions`](https://github.com/git-mastery/actions)
+
+## First contribution recommendation
+
+If you are looking for a good starting point, begin with 1 to 2 hands-ons before moving into full exercises or CLI and library work.
 
 ## Noticed something wrong with the documentation?
 
