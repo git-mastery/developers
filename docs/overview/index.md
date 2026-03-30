@@ -15,7 +15,7 @@ These are the main repositories that make up the Git-Mastery ecosystem, and are 
 
 - [`exercises`](https://github.com/git-mastery/exercises): hands-ons, exercises, download setup, and verification tests
 - [`app`](https://github.com/git-mastery/app): the `gitmastery` CLI used by students and contributors
-- [`repo-smith`](https://github.com/git-mastery/repo-smith): test-support library that creates Git repository states through helper objects so exercise verification scenarios can be set up deterministically in tests
+- [`repo-smith`](https://github.com/git-mastery/repo-smith): test support library that creates Git repository states through helper objects so exercise verification scenarios can be set up deterministically in tests
 - [`git-autograder`](https://github.com/git-mastery/git-autograder): grading library that loads a Git-Mastery exercise attempt and turns repository or answer checks into structured verification result
 
 ## Supporting repositories

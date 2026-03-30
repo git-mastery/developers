@@ -6,13 +6,26 @@ nav_order: 2
 
 # How to add an exercise
 
+## What is an exercise?
+
+Exercises are graded Git challenges that students complete independently to demonstrate their understanding of Git concepts. Unlike hands-ons, which only set up a sandbox for a lesson, exercises have a full lifecycle: the app downloads a starting repository state, the student performs the required Git operations, and the app verifies their work against a grading script.
+
+For example, a student can run `gitmastery download branch-bender` to receive a repository in a specific state, then work through the challenge before running `gitmastery verify branch-bender` to get feedback.
+
+Each exercise consists of two main components:
+
+- **`download.py`** — sets up the initial repository state the student works from.
+- **`verify.py`** — inspects the student's repository after they attempt the exercise and returns a pass or fail result with feedback.
+
+Some examples of how Git-Mastery app uses exercises can be found [here](https://git-mastery.org/exercises-directory/index.html).
+
 ## Before contributing
 
-If you are proposing a new exercise, instead of implementing an [already approved exercise proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22exercise%20discussion%22%20label%3A%22help%20wanted%22), make sure that you have done the following:
+If you are proposing a new exercise, instead of implementing an [already approved exercise proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22exercise%20discussion%22%20label%3A%22good%20first%20issue%22), make sure that you have done the following:
 
 - [ ] Create an [exercise discussion](https://github.com/git-mastery/exercises/issues/new?template=exercise_discussion.yaml)
 - [ ] Obtain approval on the exercise
-- [ ] File a [remote repository request](https://github.com/git-mastery/exercises/issues/new?template=request_exercise_repository.yaml)
+- [ ] File a [remote repository request](https://github.com/git-mastery/exercises/issues/new?template=request_exercise_repository.yaml) (if needed)
 
 ## Create a new exercise
 
@@ -24,7 +37,7 @@ Use the provided `new.sh` script to generate the scaffolding for a new exercise:
 
 The script will first prompt if you want to create a hands-on or exercise.
 
-Enter `exercise` or `e` to create a new exercise.
+Enter `e` to create a new exercise.
 
 Then, the script will prompt you for:
 
@@ -65,16 +78,6 @@ These are some references for download setups for other exercises:
 3. For any commands that require `gh`, make sure that the `requires_github` configuration is set to `true` so that the app automatically checks that the student has set up GitHub CLI correctly.
 4. `setup(...)` may receive a `repo-smith` helper object as `rs`; use it instead of shelling out directly when possible.
 
-### Testing downloads
-
-To test that your download script works, use the provided script:
-
-```bash
-./test-download.sh <your exercise folder>
-```
-
-You can find the downloaded repository under `test-downloads/`.
-
 ## Verification setup
 
 The verification process is controlled by `verify.py`. This file contains the grading logic that inspects the student's work and returns a result with a status and feedback comments.
@@ -85,7 +88,7 @@ For more information about how Git-Mastery verifies exercise attempts, refer to 
 
 The [`git-autograder`](https://github.com/git-mastery/git-autograder) library builds the `GitAutograderExercise` object passed to `verify(...)`. It exposes the exercise config, the working repository, and optional answer parsing.
 
-If there is no helper for a check you need, you can still fall back to the underlying `GitPython` repository:
+If there is no helper for a check you need, you can still fall back to the underlying `GitPython` repository (however, this should be avoided):
 
 ```python
 from git_autograder import (
@@ -96,8 +99,7 @@ from git_autograder import (
 
 
 def verify(exercise: GitAutograderExercise) -> GitAutograderOutput:
-    # Access the underlying GitPython repo:
-    exercise.repo.repo
+    repo = exercise.repo
 
     return exercise.to_output([], GitAutograderStatus.SUCCESSFUL)
 ```
@@ -117,7 +119,20 @@ Some examples of verifications:
 2. For any remote behavior to verify, provide a mock to substitute the behavior in unit tests.
 3. Prefer raising `exercise.wrong_answer([...])` for incorrect submissions and reserve unexpected exceptions for genuine errors.
 
-### Testing verify logic
+
+## Testing
+
+### Testing downloads without app
+
+To test that your download script works locally without the app, use the provided script:
+
+```bash
+./test-download.sh <exercise name>
+```
+
+You can find the sandbox created by the script under `test-downloads/`. Check it manually to verify that it is as expected.
+
+### Testing verify logic without app
 
 Use [`repo-smith`](https://github.com/git-mastery/repo-smith) to simulate possible student answers and verify that your grading logic correctly accepts valid attempts and flags expected mistakes.
 
@@ -132,6 +147,27 @@ You can run the unit tests of your exercise via:
 ```bash
 ./test.sh <your exercise folder>
 ```
+
+### Testing downloads and verify using app
+
+To test the full student workflow, push your changes to a branch in a repository and modify the `.gitmastery.json` file in your `gitmastery-exercises` directory such that `exercises_source` points to this branch.
+
+```json
+{
+  "type": "remote",
+  "username": "your-github-username",
+  "repository": "your-repository-name",
+  "branch": "your-branch-name"
+}
+```
+
+Run `gitmastery download <your-exercise-name>`. Check that the download is correct manually.
+Navigate into the exercise folder and run `gitmastery verify`. This should cause a failure as the exercise has not been complicated.
+Manually simulate a student's workflow within the exercise folder (both correct and incorrect outputs) and run `gitmastery verify` to ensure your verification logic correctly grades these scenarios.
+
+{: .warning }
+
+This will cause all subsequent `gitmastery download` and `gitmastery verify` commands run within this folder to pull exercises from your branch. After you are done testing, revert your [`.gitmastery.json`](/developers/docs/app/configuration/) file to its default state, where `exercises_source` is set to the Git-Mastery organisation repository.
 
 ## Submitting the exercise for review
 

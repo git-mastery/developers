@@ -8,7 +8,11 @@ nav_order: 1
 
 Git-Mastery is standardizing on a `uv`-first local development workflow.
 
-Use the guidance on this page as the default when setting up repositories locally. Some repositories are still in transition, and may be using `pip` and `venv` for local development.
+Use the guidance on this page as the default when setting up repositories locally.
+
+{: .warning }
+
+> Some repositories are still in transition, and may be using `pip` and `venv` for local development.
 
 ## Prerequisites
 
@@ -16,6 +20,7 @@ Use the guidance on this page as the default when setting up repositories locall
 - Python 3.13+
 - `uv` (refer to [installation guide](https://docs.astral.sh/uv/getting-started/installation/))
 - GitHub CLI (`gh`) installed and authenticated when working on flows that interact with GitHub
+- Git-Mastery app installed and configured (refer to [the setup guide](https://git-mastery.org/companion-app/index.html#installation-and-setup))
 
 ## Repository setup (uv)
 
@@ -77,13 +82,3 @@ Use the guidance on this page as the default when setting up repositories locall
    ```bash
    lefthook install
    ```
-
-## GitHub-dependent work
-
-If you are working on downloads, remote exercises, or progress sync flows, ensure `gh auth status` succeeds before testing.
-
-Git-Mastery's GitHub-dependent commands also expect the `delete_repo` scope for flows that create and remove forks.
-
-```bash
-gh auth refresh -s delete_repo
-```

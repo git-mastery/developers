@@ -50,58 +50,23 @@ j --> k[Execute the download function in the hands-on file]
 These are handled within the app's `download.py` command through the `download_exercise` function.
 
 ```mermaid
-flowchart
-A[Check if exercise exists] --> B{Exercise exists?}
-B -- No --> C[Error and stop the download]
-B -- Yes --> D[Check if exercise folder already exists]
-D -- Yes --> E[Delete existing folder]
-D -- No --> F[Create exercise folder]
-E --> F
-F --> G[Change directory to exercise folder]
-G --> H[Download base files]
-H --> I[Read config file]
-
-I --> J{Requires Git?}
-J -- Yes --> K[Check Git setup]
-K -- Not setup --> L[Rollback, remove folder, stop download]
-J -- No --> M[Proceed]
-
-M --> N{Requires GitHub?}
-N -- Yes --> O[Check GitHub setup]
-O -- Not setup --> P[Rollback, remove folder, stop download]
-N -- No --> Q[Proceed]
-
-Q --> R{Config has base files?}
-R -- Yes --> S[Download additional resources]
-R -- No --> T[Skip resource download]
-
-S --> U{Repo type is managed?}
-T --> U
-U -- Yes --> V[Set up exercise folder]
-U -- No --> Z1[Save config with timestamp and print next steps]
-
-V --> V1[Save metadata to .gitmastery-exercise.json]
-V1 --> V2{Repo type: local or remote?}
-V2 -- Local --> V3[Create local folder]
-V2 -- Remote --> V4[Retrieve from GitHub]
-V4 --> V5{Fork required?}
-V5 -- Yes --> V6[Check or delete existing fork, create new fork, clone fork]
-V5 -- No --> V7[Clone repository]
-V3 --> V8[Change into repo folder]
-V6 --> V8
-V7 --> V8
-V8 --> V9[Fetch resources via download.py]
-V9 --> V10{Resources exist?}
-V10 -- Yes --> V11[Download and save resources]
-V10 -- No --> V12[Skip resource download]
-V11 --> V13{Repo init enabled?}
-V12 --> V13
-V13 -- Yes --> V14[Initialize repo and commit initial state]
-V13 -- No --> V15[Skip repo init]
-V14 --> V16[Execute setup from download.py]
-V15 --> V16
-V16 --> V17[Print next steps]
-
-Z1 --> Z2[Download complete]
-V17 --> Z2
+flowchart TD
+A[Check exercise exists] -->|Not found| ERR[Error and stop]
+A -->|Found| B[Prepare exercise folder]
+B --> C[Download base files and read config]
+C --> D{Prerequisites met?\nGit / GitHub}
+D -->|No| ROLL[Rollback and stop]
+D -->|Yes| E[Download additional resources if any]
+E --> F{Repo type managed?}
+F -->|No| G[Save config and print next steps]
+F -->|Yes| H[Save metadata to .gitmastery-exercise.json]
+H --> I{Repo type}
+I -->|local| J[Create local repo]
+I -->|remote| K{Fork required?}
+K -->|Yes| L[Fork and clone]
+K -->|No| M[Clone repository]
+J & L & M --> N[Run download.py setup]
+N --> O[Print next steps]
+G --> DONE[Download complete]
+O --> DONE
 ```

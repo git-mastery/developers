@@ -60,7 +60,7 @@ We opted to use a standardized configuration for exercises because they often fo
 The `new.sh` script generates one for you, but you can modify the file directly:
 
 - `exercise_name`: raw exercise name that will be indexed; recommended to use [kebab case](https://developer.mozilla.org/en-US/docs/Glossary/Kebab_case)
-- `tags`: used during indexing on the [exercise directory](https://git-mastery.github.io/exercises)
+- `tags`: specify topic related to exercise
 - `requires_git`: performs a check to ensure that Git is installed and `user.name` and `user.email` are configured
 - `requires_github`: performs a check to ensure that GitHub CLI is installed and the user has authenticated
 - `base_files`: specifies the files from `res/` to be downloaded into the exercise root

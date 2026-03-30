@@ -8,21 +8,21 @@ nav_order: 1
 
 ## What is a hands-on?
 
-[Lessons accompanying Git-Mastery App](https://nus-cs2103-ay2526s1.github.io/website/se-book-adapted/git-trail/index.html) contains hands-on practicals for students to get hands-on experience of the Git concepts covered by the lesson. Some of those hands-on practicals need to set up a sandbox containing the required folders, files, and repositories before the student can start. Git-Mastery app can set up that sandbox for students so that they can get to the practical part more easily.
+[Lessons accompanying Git-Mastery App](https://git-mastery.org/lessons/index.html) contains hands-on practicals for students to get hands-on experience of the Git concepts covered by the lesson. Some of those hands-on practicals need to set up a sandbox containing the required folders, files, and repositories before the student can start. Git-Mastery app can set up that sandbox for students so that they can get to the practical part more easily.
 
 For example, a student can run `gitmastery download hp-init-repo` to set up a sandbox for a specific hands-on practical.
 
-Some examples of how Git-Mastery app helps create the sandbox for a hands-on practical can be seen in [this Git Tour](https://nus-cs2103-ay2526s1.github.io/website/book/gitAndGitHub/trail/recordingFolderHistory/index.html) (see T1L3 and T1L4).
+Some examples of how Git-Mastery app helps create the sandbox for a hands-on practical can be seen in [this Git Tour](https://git-mastery.org/lessons/trail/recordingFolderHistory/#git-mastery-lessons) (see T1L3 and T1L4).
 
 ## Before contributing
 
-New contributors are recommended to start by implementing an [already approved hands-on proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22hands-on%20discussion%22%20label%3A%22help%20wanted%22).
+New contributors are recommended to start by implementing an [already approved hands-on proposal](https://github.com/git-mastery/exercises/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22hands-on%20discussion%22%20label%3A%22good%20first%20issue%22).
 
 If you are proposing a new hands-on instead, make sure that you have done the following:
 
 - [ ] Create a [hands-on discussion](https://github.com/git-mastery/exercises/issues/new?template=hands_on_discussion.yaml)
 - [ ] Obtain approval on the hands-on
-- [ ] File a [remote repository request](https://github.com/git-mastery/exercises/issues/new?template=request_exercise_repository.yaml)
+- [ ] File a [remote repository request](https://github.com/git-mastery/exercises/issues/new?template=request_exercise_repository.yaml) (if needed)
 
 ## Implementing a hands-on
 
@@ -34,7 +34,7 @@ First, run the provided `new.sh` script to generate the scaffolding for a new ha
 
 The script will first prompt if you want to create a hands-on or exercise.
 
-Enter `hands-on` or `h` to create a new hands-on.
+Enter `h` to create a new hands-on.
 
 Then, the script will prompt you for:
 
@@ -59,7 +59,6 @@ Git-Mastery uses the format `hp-<hands-on-name>` for hands-on names, for example
 ```python
 import os
 
-from exercise_utils.cli import run_command
 from exercise_utils.file import append_to_file, create_or_update_file
 from exercise_utils.git import add, init
 
@@ -87,6 +86,11 @@ The setup instructions go under the `download` function.
 
 `__requires_git__` and `__requires_github__` tell the app whether to run automatic verification that the student has set up Git and GitHub CLI correctly.
 
+{: .warning }
+
+> We are currently working on doing a one-time migration to reposmith for download functions, tracked in this [issue](https://github.com/git-mastery/exercises/issues/268).
+> For now, we will still use this current syntax.
+
 {: .reference }
 
 For more information about how Git-Mastery downloads a hands-on, refer to the [Download flow](/developers/docs/exercises/download-workflow).
@@ -108,15 +112,36 @@ These are some references for download setups for other hands-ons:
 1. Any operations should use OS-agnostic options, for example `shutil.rmtree` instead of `run_command(["rm"])`.
 2. For any commands that require `gh`, make sure that the `__requires_github__` variable in the download setup is set to `True` so that the app automatically checks that the student has set up GitHub CLI correctly.
 
-### Testing downloads
+## Testing
 
-To test that your download script works, use the provided script:
+### Testing downloads without app
+
+To test that your download script works locally without the app, use the provided script:
 
 ```bash
 ./test-download.sh <hands-on name>
 ```
 
 You can find the sandbox created by the script under `test-downloads/`. Check it manually to verify that it is as expected.
+
+### Testing downloads using app
+
+To test the full student workflow, push your changes to a branch in a repository and modify the `.gitmastery.json` file in your `gitmastery-exercises` directory such that `exercises_source` points to this branch.
+
+```json
+{
+  "type": "remote",
+  "username": "your-github-username",
+  "repository": "your-repository-name",
+  "branch": "your-branch-name"
+}
+```
+
+Run `gitmastery download hp-<your-hands-on-name>`. Check that the download is correct manually.
+
+{: .warning }
+
+This will cause all subsequent `gitmastery download` commands run within this folder to pull exercises from your branch. After you are done testing, revert your [`.gitmastery.json`](/developers/docs/app/configuration/) file to its default state, where `exercises_source` is set to the Git-Mastery organisation repository.
 
 ## Submitting the hands-on for review
 
