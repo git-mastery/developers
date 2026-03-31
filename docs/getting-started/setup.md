@@ -34,8 +34,13 @@ Use the guidance on this page as the default when setting up repositories locall
 
 3. Run the following command to set up virtual environment and install dependencies:
 
+   {: .note }
+
+   > The `--all-groups` flag ensures all dependencies are installed, including those for development and testing.
+   > Development and testing dependencies are needed for running pre-commit hooks and tests locally.
+
    ```bash
-   uv sync
+   uv sync --all-groups
    ```
 
 4. Set up pre-commit hooks using LeftHook
@@ -82,3 +87,15 @@ Use the guidance on this page as the default when setting up repositories locall
    ```bash
    lefthook install
    ```
+
+## Troubleshooting
+
+### Pre-commit hooks not running as expected after migration to `uv`
+
+1. Delete existing hooks in `.git/hooks/` to remove any old `pip`-based hooks.
+
+   ```
+   rm -rf .git/hooks/pre-commit
+   ```
+
+2. Re-run `uv run lefthook install` to set up the new hooks.
