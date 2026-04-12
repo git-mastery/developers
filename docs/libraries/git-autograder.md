@@ -148,6 +148,47 @@ if not origin.is_for_repo("git-mastery", "exercises"):
     raise exercise.wrong_answer(["Your remote 'origin' does not point to the correct repository."])
 ```
 
+### `exercise.repo.tags` — `TagHelper`
+
+```python
+tag = exercise.repo.tags.tag("v1.0.0")                 # raises if missing
+tag = exercise.repo.tags.tag_or_none("v1.0.0")         # returns None if missing
+exists = exercise.repo.tags.has_tag("v1.0.0")
+
+remote_tags = exercise.repo.tags.remote_tag_names("origin")          # raises if remote is missing or tags cannot be queried
+remote_tags = exercise.repo.tags.remote_tag_names_or_none("origin")  # returns None on missing remote or query failure
+```
+
+#### `GitAutograderTag`
+
+| Property / Method | Description |
+|---|---|
+| `tag.name` | Tag name |
+| `tag.commit` | Commit pointed to by this tag (`GitAutograderCommit`) |
+| `tag.is_annotated` | True if this is an annotated tag |
+| `tag.is_lightweight` | True if this is a lightweight tag |
+| `tag.message_or_none(strip=True, lower=False)` | Annotated tag message, or `None` for lightweight tags |
+| `tag.points_to(commit)` | True if this tag points to the given commit |
+
+Example — check that a required local tag exists:
+
+```python
+if not exercise.repo.tags.has_tag("v1.0.0"):
+    raise exercise.wrong_answer(["Tag 'v1.0.0' is missing."])
+```
+
+Example — verify that the start tag exists on `origin`:
+
+```python
+main = exercise.repo.branches.branch("main")
+first_commit = main.commits[-1]
+start_tag = f"git-mastery-start-{first_commit.hexsha[:7]}"
+
+remote_tags = exercise.repo.tags.remote_tag_names_or_none("origin")
+if remote_tags is None or start_tag not in remote_tags:
+    raise exercise.wrong_answer([f"Missing start tag on origin: {start_tag}"])
+```
+
 ### `exercise.repo.files` — `FileHelper`
 
 ```python
