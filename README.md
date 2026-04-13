@@ -10,22 +10,51 @@ Install the following tools first:
 
 - Ruby 3.2.2
 
-  | Note: the installation commands below are for macOS using Homebrew only. Adjust as needed for your OS and package manager.
+   Use one of the following OS-specific options.
 
-  ```bash
-  brew install rbenv ruby-build
-  rbenv install 3.2.2
-  echo 'eval "$(rbenv init - zsh)"' >> ~/.zshrc
-  source ~/.zshrc
-  rbenv global 3.2.2
-  ruby -v
-  ```
+   macOS (Homebrew + rbenv):
+
+   ```bash
+   brew install rbenv ruby-build
+   rbenv install 3.2.2
+   echo 'eval "$(rbenv init - zsh)"' >> ~/.zshrc
+   source ~/.zshrc
+   rbenv global 3.2.2
+   ruby -v
+   ```
+
+   Ubuntu/Debian (rbenv):
+
+   ```bash
+   sudo apt update
+   sudo apt install -y git curl build-essential libssl-dev zlib1g-dev \
+      libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev \
+      libxslt1-dev libcurl4-openssl-dev libffi-dev libgdbm-dev libncurses5-dev
+   curl -fsSL https://github.com/rbenv/rbenv-installer/raw/main/bin/rbenv-installer | bash
+   export PATH="$HOME/.rbenv/bin:$PATH"
+   eval "$(rbenv init - bash)"
+   rbenv install 3.2.2
+   rbenv global 3.2.2
+   ruby -v
+   ```
+
+   Windows (RubyInstaller + ridk):
+
+   1. Download and install Ruby 3.2.x from [RubyInstaller](https://rubyinstaller.org/downloads/).
+   2. Choose the installer named `Ruby+Devkit 3.2.x (x64)` for most systems.
+      Use `x86` only if your Windows is 32-bit.
+   3. During install, keep the option to run `ridk install` enabled.
+   4. Open a new PowerShell and verify:
+
+   ```powershell
+   ruby -v
+   ```
 
 - Bundler
 
-  ```bash
-  gem install bundler
-  ```
+   ```bash
+   gem install bundler
+   ```
 
 ## Run locally
 
@@ -67,7 +96,8 @@ bundle exec jekyll build
 
 ## Troubleshooting
 
-- `bundle: command not found`: install Bundler with `gem install bundler`.
-- Shell still reports wrong Ruby version: run `rbenv version` to confirm 3.2.2 is active; if not, run `rbenv global 3.2.2` and restart the terminal.
+- `bundle: command not found`: ensure Ruby and Bundler are installed, then open a new shell and run `gem install bundler`.
+- Ruby version is not 3.2.2 on macOS/Linux: confirm with `ruby -v`, then set with `rbenv global 3.2.2`.
+- Ruby version is not 3.2.2 on Windows: reinstall Ruby 3.2.x from RubyInstaller and reopen PowerShell.
 - Port `4000` already in use: run `bundle exec jekyll serve --port 4001`.
 - Styling or content not updating: restart `jekyll serve` and hard refresh your browser.
