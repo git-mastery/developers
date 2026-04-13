@@ -21,6 +21,13 @@ They are loaded during exercise download, which means that the `app` has access 
 - `exercise_utils.roles`: role-marker helpers for generating teammate-authored commits, merges, pull requests, comments, reviews, and PR closures
 - `exercise_utils.test`: testing utilities including `GitAutograderTestLoader` and `assert_output` for unit testing verification scripts
 
+### `exercise_utils.roles`
+
+`RoleMarker(role)` is useful when an exercise needs to simulate teammate-authored Git or GitHub activity while still using the normal helper APIs.
+
+- It automatically prefixes commit messages, merge messages, PR titles and bodies, PR comments, and PR reviews with a `[ROLE:...]` marker
+- It also provides utilities for formatting, detecting, extracting, and stripping role markers when you need to work with the text directly
+
 ### `exercise_utils.cli` functions
 
 The existing utility functions should cover most use cases, but if there is no existing utility function for your use case, `exercise_utils.cli` functions are available to execute other CLI calls. These should be used as a last resort.
