@@ -13,10 +13,12 @@ They are loaded during exercise download, which means that the `app` has access 
 ## Available utility modules
 
 - `exercise_utils.cli`: generic CLI calls
+- `exercise_utils.exercise_config`: helpers for updating `.gitmastery-exercise.json`, including adding PR metadata
 - `exercise_utils.file`: file creation and appending helpers
 - `exercise_utils.git`: common Git operations such as commit, repository initialization, and adding files
 - `exercise_utils.gitmastery`: Git-Mastery specific functions such as creating the start tag
-- `exercise_utils.github_cli`: GitHub CLI wrappers for forking, cloning, deleting, and creating repositories, as well as looking up the authenticated user
+- `exercise_utils.github_cli`: GitHub CLI wrappers for repository operations and pull request workflows such as creating, viewing, commenting on, reviewing, merging, and closing PRs
+- `exercise_utils.roles`: role-marker helpers for generating teammate-authored commits, merges, pull requests, comments, reviews, and PR closures
 - `exercise_utils.test`: testing utilities including `GitAutograderTestLoader` and `assert_output` for unit testing verification scripts
 
 ### `exercise_utils.cli` functions
