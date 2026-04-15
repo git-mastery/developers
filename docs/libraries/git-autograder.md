@@ -49,11 +49,13 @@ The main object passed to every `verify(exercise)` function.
 | `exercise.exercise_path` | Path to the exercise root directory |
 | `exercise.config` | Parsed `.gitmastery-exercise.json` as `ExerciseConfig` |
 | `exercise.repo` | `GitAutograderRepo` (or `NullGitAutograderRepo` for `ignore` exercises) |
+| `exercise.git_repo` | Underlying GitPython `Repo` object (raises on access for `ignore` and `local-ignore` exercises) |
 | `exercise.answers` | Parsed `answers.txt` as `GitAutograderAnswers` |
 | `exercise.to_output(comments, status)` | Build the return value |
 | `exercise.wrong_answer(comments)` | Raise a grading failure |
 | `exercise.read_config(key)` | Read a key from `.gitmastery-exercise.json` |
 | `exercise.write_config(key, value)` | Write a key to `.gitmastery-exercise.json` |
+| `exercise.fetch_pr()` | Reload PR metadata from config |
 
 ### Exception types
 
@@ -92,6 +94,7 @@ exists = exercise.repo.branches.has_branch("feature/login")
 | `branch.has_non_empty_commits()` | True if any student commit changed files |
 | `branch.has_edited_file(path)` | True if the file was modified since the start tag |
 | `branch.has_added_file(path)` | True if the file was added since the start tag |
+| `branch.has_at_least_commits(n, user_only=True)` | True if the branch has at least `n` commits |
 | `branch.checkout()` | Checkout this branch |
 
 Example — check that the student committed on `main`:
@@ -117,9 +120,11 @@ commit = exercise.repo.commits.commit_or_none("abc1234")
 | `commit.stats` | GitPython `Stats` object (files changed) |
 | `commit.parents` | List of `GitAutograderCommit` |
 | `commit.branches` | Branch names that contain this commit |
+| `commit.message` | Commit message as text |
 | `commit.is_child(parent)` | True if this commit descends from `parent` |
 | `commit.file_change_type(file)` | `"A"`, `"M"`, `"D"`, or `None` |
 | `commit.file(path)` | Context manager yielding the file contents at this commit |
+| `commit.is_from_user()` | True if the commit message does not contain a role marker |
 | `commit.checkout()` | Detach HEAD to this commit |
 
 ### `exercise.repo.remotes` — `RemoteHelper`
@@ -203,6 +208,71 @@ with exercise.repo.files.file("notes.txt") as f:
 # List untracked files
 untracked = exercise.repo.files.untracked_files()
 ```
+
+### `exercise.repo.prs` - `PrHelper`
+
+PR helpers are available when `.gitmastery-exercise.json` includes PR metadata under `exercise_repo`. If that config changes during setup, call `exercise.fetch_pr()` before reading PR data.
+
+```python
+exercise.fetch_pr()
+pr = exercise.repo.prs.pr
+```
+
+| Property / Method | Description |
+|---|---|
+| `exercise.repo.prs.pr` | Loaded pull request as `GitAutograderPr` |
+
+#### `GitAutograderPr`
+
+| Property / Method | Description |
+|---|---|
+| `pr.number` | Pull request number |
+| `pr.repo_full_name` | Repository in `owner/name` form |
+| `pr.title` | Pull request title |
+| `pr.body` | Pull request body |
+| `pr.state` | Pull request state |
+| `pr.author_login` | PR author login |
+| `pr.base_branch` | Base branch name |
+| `pr.head_branch` | Head branch name |
+| `pr.is_draft` | True if the PR is a draft |
+| `pr.created_at` | Creation timestamp string, or `None` |
+| `pr.merged_at` | Merge timestamp string, or `None` |
+| `pr.merged_by_login` | Merger login, or `None` |
+| `pr.commits` | All PR commits |
+| `pr.reviews` | All PR reviews |
+| `pr.comments` | All PR comments |
+| `pr.user_commits` | PR commits without role markers |
+| `pr.user_reviews` | PR reviews without role markers |
+| `pr.user_comments` | PR comments without role markers |
+| `pr.last_user_commit` | Most recent user commit |
+| `pr.last_user_review` | Most recent user review |
+| `pr.last_user_comment` | Most recent user comment |
+| `pr.is_open()` | True if the PR state is `OPEN` |
+| `pr.is_closed()` | True if the PR state is `CLOSED` |
+| `pr.is_merged()` | True if the PR state is `MERGED` |
+
+#### `GitAutograderPrReview`
+
+| Property / Method | Description |
+|---|---|
+| `review.author_login` | Review author login |
+| `review.state` | Review state |
+| `review.body` | Review body |
+| `review.is_from_user()` | True if the review body does not contain a role marker |
+| `review.is_approved()` | True if the review state is `APPROVED` |
+| `review.is_change_requested()` | True if the review state is `CHANGES_REQUESTED` |
+| `review.is_commented()` | True if the review state is `COMMENTED` |
+| `review.is_dismissed()` | True if the review state is `DISMISSED` |
+| `review.is_content_equal(body)` | Case-insensitive content comparison |
+
+#### `GitAutograderPrComment`
+
+| Property / Method | Description |
+|---|---|
+| `comment.author_login` | Comment author login |
+| `comment.body` | Comment body |
+| `comment.is_from_user()` | True if the comment body does not contain a role marker |
+| `comment.is_content_equal(body)` | Case-insensitive content comparison |
 
 ### Raw GitPython access
 
